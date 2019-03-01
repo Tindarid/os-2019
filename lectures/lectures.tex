@@ -1,0 +1,29 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{fancyhdr}
+\usepackage{fullpage}
+\usepackage{xcolor}
+\usepackage{subfiles}
+\usepackage{listings}
+
+\newcommand\todo[1]{\textcolor{red}{TODO #1}}
+\addto\captionsrussian{\renewcommand{\chaptername}{Лекция}}
+\addto\captionsrussian{\renewcommand{\contentsname}{Содержание}}
+
+\title{Операционные системы\\4 семестр}
+\author{}
+\parindent=0cm
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\subfile{lecture01/lecture}
+\subfile{lecture02/lecture}
+\subfile{lecture03/lecture}
+
+\end{document}
