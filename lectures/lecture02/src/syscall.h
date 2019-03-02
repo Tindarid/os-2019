@@ -4,4 +4,3 @@
 void IFMO_syscall();
 
 #endif
-

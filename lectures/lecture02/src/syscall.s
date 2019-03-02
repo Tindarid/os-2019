@@ -10,4 +10,3 @@ IFMO_syscall:
     movq $555, %rdx
     syscall
     ret
-

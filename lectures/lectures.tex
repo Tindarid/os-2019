@@ -8,32 +8,57 @@
 \usepackage{xcolor}
 \usepackage{subfiles}
 \usepackage{listings}
+\usepackage{ifthen}
+\usepackage{graphicx}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\lstset{frame=tb,
-  language=C,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=3
+\lstset{
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    frame=single,
+    basicstyle={\small\ttfamily},
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
 }
-\newcommand\todo[1]{\textcolor{red}{TODO #1}}
 \addto\captionsrussian{\renewcommand{\chaptername}{Лекция}}
 \addto\captionsrussian{\renewcommand{\contentsname}{Содержание}}
+\newcommand\todo[1]{\textcolor{red}{TODO #1}}
+\newcommand\lecture[1]{
+    \lstset{inputpath=lecture#1}
+    \graphicspath{{lecture#1/}}
+    \subfile{lecture#1/lecture}
+}
+\newcommand\code[2]{
+    \ifthenelse{\equal{#2}{asm}} {
+        \lstinputlisting[language={[x86masm]Assembler}, title=#1]{src/#1}
+    } {
+        \ifthenelse{\equal{#2}{C++}} {
+            \lstinputlisting[language=C++, title=#1]{src/#1}
+        } {
+            \lstinputlisting[language=C, title=#1]{src/#1}
+        }
+    }
+}
+\newcommand\image[1]{
+    \begin{center}
+    \includegraphics[height=10cm, width=.8\linewidth]{images/#1}
+    \end{center}
+}
+\newcommand\shell[1]{
+    \textbf{\$ #1}
+}
 
-\title{Операционные системы\\4 семестр}
+\title{Операционные системы}
 \author{}
 \parindent=0cm
 
@@ -42,8 +67,8 @@
 \maketitle
 \tableofcontents
 
-\subfile{lecture01/lecture}
-\subfile{lecture02/lecture}
-\subfile{lecture03/lecture}
+\lecture{01}
+\lecture{02}
+\lecture{03}
 
 \end{document}
