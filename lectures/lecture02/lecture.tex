@@ -48,6 +48,11 @@
 \todo{}
 
 \section{Модель памяти процесса}
+\begin{wrapfigure}[9]{l}{0.25\textwidth}
+    \centering
+    \includegraphics[width=0.25\textwidth]{images/memory.png}
+\end{wrapfigure}
+\hspace{15pt} Общие соображения:
 \begin{itemize}
     \item \textbf{stack} --- выделяется неявно, \textbf{heap} --- должны выделять сами (malloc, new и тп),
     \item секции --- \textbf{data}, \textbf{text}
@@ -56,7 +61,7 @@
     \item \textbf{frame} - область памяти стека, хранящая данные об адресах возврата, информацию о локальных переменных
     \item Резидентная память та, которая действительно есть
 \end{itemize}
-
+.\\
 \section{Системные вызовы для работы с процессами}
 \begin{itemize}
     \item \emph{fork()} - для того чтобы создать новый процесс
@@ -146,12 +151,19 @@
     \item Читать из stdin 
     \item В дочернем процессе execve()
     \item В родительском процессе wait()
-    \item Сдавать через гитхаб
+    \item Сдавать через github
 \end{itemize}
 
 \section{Переключение контекста}
 Шедулер ОС раскидывает процессы и создает иллюзию одновременного выполнения
 \image{context-switch.png}
 \center{Здесь иллюстрируется иллюзия многозадачности}
+
+\section{Литература}
+\begin{itemize}
+    \item Windows Internals by Mark Russinovich
+    \item Операционная система UNIX. Андрей Робачевский
+    \item Unix и Linux. Руководство системного администратора. Эви Немет.
+\end{itemize}
 
 \end{document}
