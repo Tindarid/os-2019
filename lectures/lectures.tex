@@ -11,6 +11,7 @@
 \usepackage{ifthen}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{float}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -50,10 +51,12 @@
         }
     }
 }
-\newcommand\image[1]{
-    \begin{center}
-    \includegraphics[height=10cm, width=.8\linewidth]{images/#1}
-    \end{center}
+\newcommand\image[2]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=10cm, width=.8\linewidth]{images/#1}
+        \caption{#2}
+    \end{figure}
 }
 \newcommand\shell[1]{
     \textbf{\$ #1}

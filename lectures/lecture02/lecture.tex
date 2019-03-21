@@ -43,13 +43,13 @@
 
     \item Дизайн приложения
 \end{itemize}
-
+\image{process-interruption.png}{Process-interruption}
 \section{API and ABI}
 \todo{}
 
+\newpage
 \section{Модель памяти процесса}
 \begin{wrapfigure}[9]{l}{0.25\textwidth}
-    \centering
     \includegraphics[width=0.25\textwidth]{images/memory.png}
 \end{wrapfigure}
 \hspace{15pt} Общие соображения:
@@ -142,10 +142,10 @@
     \item finalizers, библиотечный вызов \emph{exit}
 \end{itemize}
 
-\section{Диаграмма времени жизни процесса и взаимодействия с ОС}
-\image{state-diagram.png}
+\section{Процесс и ОС}
+\image{state-diagram.png}{Диаграмма времени жизни процесса и взаимодействия с ОС}
 
-\section{Homework} 
+\section{Краткое описание ДЗ1} 
 Написать shell-интерпретатор
 \begin{itemize}
     \item Читать из stdin 
@@ -156,8 +156,7 @@
 
 \section{Переключение контекста}
 Шедулер ОС раскидывает процессы и создает иллюзию одновременного выполнения
-\image{context-switch.png}
-\center{Здесь иллюстрируется иллюзия многозадачности}
+\image{context-switch.png}{Иллюзия многозадачности}
 
 \section{Литература}
 \begin{itemize}
