@@ -1,7 +1,6 @@
 \documentclass[../lectures.tex]{subfiles}
 
 \begin{document}
-
 \chapter{Процессы}
 \section{Общее}
 \begin{itemize}
@@ -45,7 +44,6 @@
 \end{itemize}
 \image{process-interruption.png}{Process-interruption}
 \section{API and ABI}
-\todo{}
 
 \newpage
 \section{Модель памяти процесса}
@@ -65,10 +63,13 @@
 \section{Системные вызовы для работы с процессами}
 \begin{itemize}
     \item \emph{fork()} - для того чтобы создать новый процесс
+    \code{fork-example.c}{C}
+    \emph{fork}-бомба
     \item \emph{wait(pid)} - ждем процесс
     \item \emph{exit()} - завершаемся
+    \item \emph{execve()} --- запустить программу
+    \code{execve-example.c}{C}
     \item \emph{SIGKILL} - принудительное завершение другого процесса (\shell{kill})
-    \item \emph{fork-бомба}
 \end{itemize}
 
 \section{PID}
@@ -101,7 +102,7 @@
 
 \code{syscall.h}{C}
 \code{syscall.s}{asm}
-\code{main.c}{C}
+\code{syscall-example.c}{C}
 
 Что здесь просходит?
 \begin{enumerate}
@@ -164,5 +165,15 @@
     \item Операционная система UNIX. Андрей Робачевский
     \item Unix и Linux. Руководство системного администратора. Эви Немет.
 \end{itemize}
+
+\todo{Добавить еще одну картинку из images}
+ 
+\todo{ABI and API}
+ 
+\todo{fork бомба}
+ 
+\todo{Секция sheduler из презентации (состояния процесса)}
+
+\todo{SIGKILL и kill - подробнее}
 
 \end{document}
