@@ -2,7 +2,60 @@
 
 \begin{document}
 
-\chapter{Файлы}
+\chapter{Файловые системы}
 
-\todo{}
+\section{Команды}
+\begin{itemize}
+    \item \shell{find} --- поиск
+    \item \shell{ls} --- содержимое директории
+\end{itemize}
+
+\section{Носители}
+\subsection{HDD}
+\image{hard-disk.jpg}{Жесткий диск}
+\begin{itemize}
+    \item Обороты в минуту($O$) --- 5400, 7200, 10000, ...
+    \item $~\frac{1}{2 * O}$ --- минимальное время доступа (случайное чтение)
+    \item В мире Unix не существует дефрагментации (ОС должна сама заботиться)
+    \item Время отказа (\textbf{MTBF} --- min time before failure) --- условное 
+          количество циклов наработки до отказа
+    \item На server --- сутки, desktop --- часы (разница в 3 раза примерно, 
+          если одно и то же число циклов)
+    \item Плюсы: стоимость, объем
+    \item Минусы: время доступа, надежность
+\end{itemize}
+
+\subsection{Общее}
+\begin{itemize}
+    \item \textbf{EOPS} --- \todo{}
+    \item \textbf{seek} --- рандомное чтение (512 байт)
+    \item \textbf{SATA} и \textbf{NVME} --- протоколы для дисков
+    \item \textbf{NVME} --- новомодная штука для \textbf{SSD}
+    \item Минимум информации: сектор --- 512 байт -> 4096 байт
+    \item Чтение одного байта равносильно чтению всего сектора с этим байтом
+    \item Запись одного байта --- считать один сектор, заменить байт и записать один сектор
+    \item Аналогия --- процессор-память --- \textbf{cacheline}
+\end{itemize}
+
+\section{Быстродействие}
+\subsection{Интересные числа}
+\begin{center}
+Числа, которые должен знать каждый программист
+\begin{tabular}{| l | l |}
+    \hline
+    Cycle                            & 1   ns \\ \hline
+    Main memory reference            & 100 ns \\ \hline
+    Read 4K randomly from SSD        & 150 us \\ \hline
+    Read 1 MB sequentially from SSD  & 1   ms \\ \hline
+    Disk seek                        & 10  ms \\ \hline
+    Read 1 MB sequentially from disk & 20  ms \\ \hline
+\end{tabular}
+\end{center}
+\subsection{Выводы для HDD}
+\begin{itemize}
+    \item Читать нужно последовательно
+    \item Обращения к диску следует минимизировать
+    \item Стоимость доступа сильно дороже передачи данных
+\end{itemize}
+
 \end{document}
