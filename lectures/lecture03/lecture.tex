@@ -60,11 +60,15 @@
 
 \section{Structure packaging}
 Сколько будет занимать памяти следующая структура?
+
 \code{hole1.c}{C}
+
 Ответ: 32 байта, так как $b$ и $d$ будут выравнены по MAX\_ALLIGNMENT
 
 Очевидное решение проблемы:
+
 \code{hole2.c}{C}
+
 Данная структура будет занимать 24 байта на x86\_64.
 
 \section{Алгоритмы элеватора}
@@ -81,7 +85,7 @@
           \textbf{SSTF} (Shortest Seek Time First)--- сортировка (очередной запрос определяется наименьшим временем seek)
     \item SLIDE 10 - \dots
 
-          Различные способы упорядочивания
+          Различные способы упорядочивания(\textbf{SCAN})
 \end{enumerate}
 
 \section{Файл}
@@ -102,29 +106,33 @@
 
 \section{Директория}
 \begin{itemize}
-    \item Содержит имена находящихся в нем файлов
+    \item Содержит имена находящихся в ней файлов
     \item $.$ --- ссылка на текущую
     \item $..$ --- ссылка на родителя
     \item \shell{cd}, \shell{pwd}
     \item Формирование дерева: \shell{ls}
     \item \emph{filename vs pathname}: \shell{realpath}
-    \item Права - "просто числа"
-    \begin{itemize}
-        \item \shell{view /etc/passwd}
-        \item \shell{view /etc/group}
-        \item \shell{id} - показывает идентификаторы того, кто ее вызывал
-        \item \shell{execute} --- search
-        \item \shell{read} --- directory listing
-        \item \shell{write} --- changing directory
-        \item Темные директории (переход в директорию внутри директории, для который ты не можешь посмотреть все файлы)
-        \item \shell{chmod} --- меняет права доступа
-    \end{itemize}
-    \item \emph{sticky bit}
-    \begin{itemize}
-        \item Изменение поведения при создании нового файла
-        \item /tmp
-        \item Создаешь директорию со \emph{sticky bit} и все, кто создают файлы в этой директории имеют на них права
-    \end{itemize}
+\end{itemize}
+\subsection{Права --- просто числа}
+\begin{itemize}
+    \item \shell{view /etc/passwd}
+    \item \shell{view /etc/group}
+    \item \shell{id} - показывает идентификаторы того, кто ее вызывал
+    \item \shell{execute} --- search
+    \item \shell{read} --- directory listing
+    \item \shell{write} --- changing directory
+    \item Темные директории (переход в директорию внутри директории, для который ты не можешь посмотреть все файлы)
+    \item Права rwx (read, write, execute)
+    \item \shell{chmod} --- меняет права доступа
+          
+          \shell{chmod 123} --- 1 - user, 2 - group, 3 - other
+    \item У процесса есть информация о том, кто его запустил
+\end{itemize}
+\subsection{sticky bit}
+\begin{itemize}
+    \item Изменение поведения при создании нового файла
+    \item /tmp
+    \item Создаешь директорию со \emph{sticky bit} и все, кто создают файлы в этой директории имеют на них права
 \end{itemize}
 
 \section{Иерархия}
@@ -145,6 +153,7 @@
             \item tmp
         \end{itemize}
 \end{itemize}
+
 \section{Монтирование}
 \begin{itemize}
     \item Есть корень и есть узлы, в которые можно монтировать другие файловые системы (часть из них виртуальная)
@@ -154,6 +163,7 @@
     \item Файловая система для узла --- это не константа, ее можно менять
     \item \shell{df - h}, \shell{du -hs}
 \end{itemize}
+
 \section{Inode}
 \todo{More from presentation}
 \begin{itemize}
