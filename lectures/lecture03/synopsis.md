@@ -1,44 +1,9 @@
 -> Литература <-
-===============
+================
 
 # Что читать?
   * The Unix Programming Environment. Brian W. Kernighan, Rob Pike
   * Advanced Programming in the Unix Environment. W. Richard Stevens
-
----
-
--> Опрос #0 <-
-==============
-
- * Кто поставил Linux после прошлой лекции?
-
----
-
--> Опрос #1 <-
-==============
-
- * Кто добрался до командной строки после прошлой лекции?
-
----
-
--> В прошлых сериях <-
-======================
-
-# Operating System
-  * [K]ernelspace
-  * Syscalls
-  * [U]serspace
-
-# Процессы
-  * Абстракция, используемая ядром, для выполнения работы
-  * Модель монопольного владения ресурсами
-  * Credentials
-  * IPC
-  * Ресурсы
-  * Модель памяти
-  * Syscalls для работы с процессами: fork, execve, waitpid, kill, exit
-  * Zombie, orphan
-  * Scheduler
 
 ---
 
@@ -58,7 +23,7 @@
 ---
 
 -> HDD <-
-==================================
+=========
   * Картинка
   * Достоинства
     - Стоимость
@@ -70,7 +35,7 @@
 ---
 
 -> SSD <-
-==================================
+=========
   * Достоинства
     - Время доступа
     - Надежность
@@ -202,6 +167,8 @@
  * Глобальная таблица открытых файлов
  * Глобальная таблица vnode
 
+---
+
 -> Файловые системы <-
 ======================
  * VFS
@@ -211,6 +178,8 @@
  * On disk
  * Userspace - FUSE
  * Точки монтирования
+
+---
 
 -> Проход по пути <-
 ====================
@@ -222,16 +191,136 @@
     - ++pathIndex
  * namei(name-inode) cache
 
+---
+
 -> Алгоритмы элеватора <-
 =========================
   * FIFO
   * SSTF - Shortest Seek Time First
-  * SCAN 
+  * SCAN
   * https://slideplayer.com/slide/5209336/
 
 ---
 
+-> Долги с прошлой лекции <-
+============================
+
+  * Пример про дорогое обращение к оперативной памяти
+
+---
+
+-> Диски <-
+===========
+  * Картинка
+    - Сектор
+    - Цилиндр
+    - Пластина
+    - Трэк
+    - Шпиндель
+  * Сектор диска состоит из:
+    - Header: метаданные для контроллера диска
+    - Данные
+    - Trailer: ECC
+    - Внутренная фрагментация
+  * При записи данных в сектор пишем ECC
+  * При чтении сверяем ECC и пытаемся исправить
+  * CLV - Constant Linear Velocity(CDROM)
+  * CAV - Constant Angular Velocity(HDD)
+  * Partitioning - treat as separate disks
+  * Logical formatting - file system
+  * RAW Disk - MySQL
+
+---
+
+-> Диски 2 <-
+=============
+  * Boot block - bootstrap program at fixed location
+    - MBR - master boot record - boot code + partition table
+    - ROM boot code -> MBR boot code -> boot sector from boot partition -> bootstraping
+  * Bad block
+    - man 1 badblocks
+    - Sector sparing: replace bad sectors with spare
+
+---
+
+-> RAID <-
+==========
+  * RAID - Redundant Arrays of Independent Disks
+  * Reliability
+    - Redundancy (mirroring, parity, ECC)
+  * Performance
+    - Striping
+  * Levels:
+    - 0 - Pure striping
+    - 1 - Pure mirroring
+    - 0 + 1, 1 + 0
+    - 2, 3, 4, 5 - not often used at practice(different parity and ECC)
+  - Картинка
+  - Rebuild
+    - Rebuilding degrades performance
+  - Software and hardware
+  - Байка про аппаратный рейды и батарейку
+
+---
+
+-> Организация файловых систем <-
+================================
+  * Структура директорий:
+    - Список
+    - Хэш таблица
+  * Выделение памяти
+    - Линейное
+      * Картинка
+      * Внешняя фрагментация
+      * Performance(both sequential and random)
+    - Список
+      * Картинка
+      * Нет внешней фрагментации
+      * Performance: random is awful, sequential
+      * Надежность
+    - FAT: File Allocation Table
+      * Картинка
+      * Все ссылки хранятся в начале диска - их можно эффективно кэшировать в памяти
+    - Индексированная
+      * Отдельный блок для ссылок на данные
+      * Внутрення фрагментация
+    - UNIX
+      * Многоуровневая адресация
+  * Свободные сектора
+    - Bit Vector
+      * Fast
+      * Space usage
+    - Список
+
+---
+
+-> Операции с файлами <-
+========================
+  * Картинка
+  * U: libc: API
+  * K: VFS: common interface
+  * K: FS: implementation
+  * K: I/O control: drivers and interrupts
+  * H: device
+
+---
+
 -> Системные вызовы <-
+======================
+  * Картинка
+  * Файловый дескриптор
+  * Создание файла
+  * Открытие, закрытие
+  * Позиционирование
+  * Чтение, запись
+  * Обрезание
+  * Блокировки
+  * Забегая вперед - buffer cache, картинка
+  * Перемещение по файловой иерархии
+
+---
+
+-> Системные вызовы 2 <-
 ======================
   * creat, open, close, unlink
   * chdir, getcwd
@@ -241,6 +330,18 @@
   * getdents, mkdir, rmdir
   * mount, umount
   * cwd у процесса
-  * Common pitfalls
-    - Утечка дескрипторов
-    - TOCTOU уязвимости и как правильно? openat, etc.
+  * dup, dup2 - подробнее в одной из следующих лекций
+
+---
+
+-> Пару слов о типах <-
+======================
+  * off_t
+  * size_t, ssize_t
+---
+
+-> Common pitfalls <-
+=====================
+  * Утечка дескрипторов
+  * TOCTOU уязвимости и как правильно? openat, etc.
+---
