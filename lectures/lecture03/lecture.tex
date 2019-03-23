@@ -4,12 +4,6 @@
 
 \chapter{Файловые системы}
 
-\section{Команды}
-\begin{itemize}
-    \item \shell{find} --- поиск
-    \item \shell{ls} --- содержимое директории
-\end{itemize}
-
 \section{Носители}
 \subsection{HDD}
 \image{hard-disk.jpg}{Жесткий диск}
@@ -111,6 +105,7 @@
     \item $..$ --- ссылка на родителя
     \item \shell{cd}, \shell{pwd}
     \item Формирование дерева: \shell{ls}
+    \item \shell{find} --- поиск
     \item \emph{filename vs pathname}: \shell{realpath}
 \end{itemize}
 \subsection{Права --- просто числа}
@@ -176,4 +171,110 @@
     \item \emph{ctime} --- изменение мета-информации
     \item \emph{mtime}--- изменение содержимого файла
 \end{itemize}
+
+\section{Атрибуты процесса}
+\todo{}
+
+\section{Файловые процессы}
+\todo{}
+
+\section{Диски}
+\todo{Здесь картинка}
+\todo{Информация из презентации}
+\begin{itemize}
+    \item На внешних цилиндрах больше секторов, чем на внутренних 
+          => чем ближе к центру тем меньше скорость нужна (CD)
+    \item На жестких дисках --- постоянная угловая скорость 
+          (в центре больше плотность)
+    \item \emph{Partitioning} --- разделение диска на несколько 
+          логических частей (партиции, на каждой своя файловая система)
+    \item Существует другой подход - "собственная" файловая система 
+          на "сыром" диске (MySQL)
+    \item Современный контроллер жесткого диска может находить механически поврежденные блоки (bad blocks) и делать remap их на некоторые запасные (sector sparing: replace bad sectors with spare)
+    \item \shell{man 1 badblocks}
+    \item Bootblock --- \todo{}
+\end{itemize}
+
+\section{RAID}
+Redundant Arrays of Independent Disks (Избыточный массив независимых дисков)
+\todo{Картинка}
+\begin{itemize}
+    \item Reilability (надежность, hacks for more long time of complex usage)
+    \item Perfomance (striping, суммирование EOPS)
+    \item Levels:
+        \begin{itemize}
+            \item 0 --- pure striping (1 блок на 1 диске, 2 блок на 2 диске и т.д. --- один диск вышел из строя --- fail)
+            \item 1 --- pure mirroring (пара дисков, данные продублированы)
+            \item 0 + 1, 1 + 0
+            \item 2, 3, 4, 5 --- используются не так часто (хранение доп. данных)
+        \end{itemize}
+    \item Rebuild --- падает производительность
+    \item Hardware RAID --- проблемы: "залоченность" на производителе (vendor lock in), драйвера, как правило, не очень
+    \item Software RAID --- гипотетически медленно, но на практике нужная производительность достигается
+    \item У аппаратных RAID --- есть батарейка, которая "улучшает" производительность 
+          (сначала на батарейку, потом на диск, когда будет удобно)
+\end{itemize}
+
+\section{Организация файловых систем}
+Структура директорий: связный список и хэш-таблица
+
+Выделение памяти
+\begin{enumerate}
+    \item Линейное
+        \begin{itemize}
+            \item \todo{.png}
+            \item Объект задается началом и концом (здесь возникают проблемы внешней и внутренней фрагментации)
+            \item Perfomance: +sequential, +random
+        \end{itemize}
+    \item Список
+        \begin{itemize}
+            \item \todo{.png}
+            \item Perfomance: -sequential, --random
+            \item Надежность: -
+            \item Решает проблему внешней фрагментации
+            \item В каждом "блоке" указатель на следующий
+        \end{itemize}
+    \item FAT
+        \begin{itemize}
+            \item \todo{.png}
+            \item Все ссылки хранятся в начале диска --- их можно эффективно кэшировать
+        \end{itemize}
+    \item Индексированная
+        \begin{itemize}
+            \item \todo{.png}
+            \item Отдельный блок для ссылок на данные
+            \item Внутренняя фрагментация
+        \end{itemize}
+    \item UNIX
+        \begin{itemize}
+            \item \todo{.png}
+            \item Комбинированная
+            \item Косвенная многоуровневая адресация
+        \end{itemize}
+\end{enumerate}
+
+smart (\shell{smartctl}) --- оценка диска на практике
+
+Свободные сектора
+\begin{enumerate}
+    \item Bit Vector --- fast, space usage
+    \item Список
+\end{enumerate}
+
+\section{Операции с файлами}
+\todo{3 картинки + презентация}
+
+\section{Системные вызовы}
+
+\section{Пару слов о типах}
+
+\section{Common pitfalls}
+
+\section{Литература}
+\begin{itemize}
+    \item The Unix Programming Environment. Brian W. Kernighan, Rob Pike
+    \item Advanced Programming in the Unix Environment. W. Richard Stevens
+\end{itemize}
+
+\section{Домашнее задание №2}
 \end{document}
