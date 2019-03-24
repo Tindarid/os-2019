@@ -38,9 +38,9 @@
 \addto\captionsrussian{\renewcommand{\contentsname}{Содержание}}
 \newcommand\todo[1]{\textcolor{red}{TODO #1}}
 \newcommand\lecture[1]{
-    \lstset{inputpath=lecture#1}
-    \graphicspath{{lecture#1/}}
-    \subfile{lecture#1/lecture}
+    \lstset{inputpath=lectures/lecture#1}
+    \graphicspath{{lectures/lecture#1/}}
+    \subfile{lectures/lecture#1/lecture}
 }
 \newcommand\code[2]{
     \ifthenelse{\equal{#2}{asm}} {
