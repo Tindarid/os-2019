@@ -53,10 +53,10 @@
         }
     }
 }
-\newcommand\image[2]{
+\newcommand\centerimage[3]{
     \begin{figure}[H]
         \centering
-        \includegraphics[height=10cm, width=.8\linewidth]{images/#1}
+        \includegraphics[scale=#3]{images/#1}
         \caption{#2}
     \end{figure}
 }
