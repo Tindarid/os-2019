@@ -90,7 +90,8 @@
   * Переключение выполняемой программы: заменить поток выполнения + заменить сегмент
   * Память per process
   * Relocations все еще нужны
-  * Картинка трансляции
+![Segment-translation]
+(https://github.com/ubique/os-lectures/virtual-memory-segment-translation.png)
 
 ---
 
