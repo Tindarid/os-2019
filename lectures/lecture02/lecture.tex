@@ -50,12 +50,16 @@
 \section{API and ABI}
 \todo{}
 
-\newpage
 \section{Модель памяти процесса}
-\begin{wrapfigure}[9]{l}{0.25\textwidth}
-    \includegraphics[width=0.25\textwidth]{images/memory.png}
-\end{wrapfigure}
-\hspace{15pt} Общие соображения:
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.25\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/memory.png}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.7\linewidth}
+\centering
 \begin{itemize}
     \item \textbf{stack} --- выделяется неявно, \textbf{heap} --- должны выделять сами (malloc, new и тп),
     \item секции --- \textbf{data}, \textbf{text}
@@ -64,7 +68,8 @@
     \item \textbf{frame} --- область памяти стека, хранящая данные об адресах возврата, информацию о локальных переменных
     \item Резидентная память та, которая действительно есть
 \end{itemize}
-.\\
+\end{minipage}
+\end{figure}
 
 \section{Системные вызовы для работы с процессами}
 \begin{itemize}
@@ -163,7 +168,6 @@
     \item Unix и Linux. Руководство системного администратора. Эви Немет.
 \end{itemize}
 
-\newpage
 \section{Домашнее задание №1} 
 Необходимо создать игрушечный интерпретатор.
 
