@@ -141,7 +141,10 @@
 \end{itemize}
 
 \section{Иерархия}
-\todo{root.png}
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
 \begin{itemize}
     \item $/$
         \begin{itemize}
@@ -159,6 +162,14 @@
             \item tmp
         \end{itemize}
 \end{itemize}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/root.png}
+\end{minipage}
+\end{figure}
+\begin{center}(На картинке изображен типичный вид корня в Linux)\end{center}
 
 \section{Монтирование}
 \begin{itemize}
@@ -187,7 +198,15 @@
 \todo{}
 
 \section{Файловые системы}
-\todo{}
+\centerimage{virtual-fs.jpg}{VFS}{1}
+\todo{Описания}
+\begin{itemize}
+    \item \textbf{VFS}
+    \item Сетевые
+    \item Виртуальные
+    \item На диске
+    \item В памяти
+\end{itemize}
 
 \section{Проход по пути}
 \begin{itemize}
@@ -213,28 +232,42 @@
     \item Bootblock --- \todo{}
 \end{itemize}
 
+\newpage
 \section{RAID}
 Redundant Arrays of Independent Disks (Избыточный массив независимых дисков)
-\centerimage{raid-levels.jpg}{Уровни RAID}{1}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/raid-levels.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.55\linewidth}
+\centering
 \begin{itemize}
     \item Reilability (надежность, hacks for more long time of complex usage)
-    \item Perfomance (striping, суммирование EOPS)
+    \item Perfomance (striping, суммирование \textbf{EOPS})
     \item Levels:
         \begin{itemize}
-            \item 0 --- pure striping (1 блок на 1 диске, 2 блок на 2 диске и т.д. --- один диск вышел из строя --- fail)
-            \item 1 --- pure mirroring (пара дисков, данные продублированы)
-            \item 0 + 1, 1 + 0
-            \item 2, 3, 4, 5 --- используются не так часто (хранение доп. данных)
+            \item \textbf{0} --- pure striping (1 блок на 1 диске, 2 блок на 2 диске и т.д. --- один диск вышел из строя --- fail)
+            \item \textbf{1} --- pure mirroring (пара дисков, данные продублированы)
+            \item \textbf{0 + 1, 1 + 0}
+            \item \textbf{2, 3, 4, 5} --- используются не так часто (хранение доп. данных)
         \end{itemize}
     \item Rebuild --- падает производительность
     \item Hardware RAID --- проблемы: "залоченность" на производителе (vendor lock in), драйвера, как правило, не очень
     \item Software RAID --- гипотетически медленно, но на практике нужная производительность достигается
     \item У аппаратных RAID --- есть батарейка, которая "улучшает" производительность 
           (сначала на батарейку, потом на диск, когда будет удобно)
+    \item \todo{Байка про SpaceWeb}
 \end{itemize}
+\end{minipage}
+\end{figure}
 
+\newpage
 \section{Организация файловых систем}
-Структура директорий: связный список и хэш-таблица
+Структура директорий: связный список или хэш-таблица
 
 smart (\shell{smartctl}) --- оценка диска на практике
 
@@ -244,7 +277,7 @@ smart (\shell{smartctl}) --- оценка диска на практике
     \item Список
 \end{enumerate}
 
-\begin{center}Выделение памяти\end{center}
+\begin{center}\textbf{Выделение памяти}\end{center}
 
 \begin{figure}[H]
 \captionsetup{singlelinecheck=off}
@@ -255,10 +288,11 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-Линейное
+\textbf{Линейное}
 \begin{itemize}
     \item Объект задается началом и концом (здесь возникают проблемы внешней и внутренней фрагментации)
-    \item Perfomance: +sequential, +random
+    \item Линейное чтение, меньше обращений
+    \item Perfomance: sequential, random
 \end{itemize}
 \end{minipage}
 \end{figure}
@@ -272,12 +306,12 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-Список
+\textbf{Список}
 \begin{itemize}
-    \item Perfomance: -sequential, --random
-    \item Надежность: -
-    \item Решает проблему внешней фрагментации
     \item В каждом "блоке" указатель на следующий
+    \item Плюсы: решает проблему внешней фрагментации
+    \item Минусы: надежность, прыгаем по памяти
+    \item Perfomance: sequential, awful random
 \end{itemize}
 \end{minipage}
 \end{figure}
@@ -291,9 +325,10 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-FAT
+\textbf{FAT}
 \begin{itemize}
     \item Все ссылки хранятся в начале диска --- их можно эффективно кэшировать
+    \item Улучшенный поиск
 \end{itemize}
 \end{minipage}
 \end{figure}
@@ -307,7 +342,7 @@ FAT
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-Индексированная
+\textbf{Индексированное}
 \begin{itemize}
     \item Отдельный блок для ссылок на данные
     \item Внутренняя фрагментация
@@ -336,10 +371,27 @@ UNIX
 \todo{3 картинки + презентация}
 
 \section{Системные вызовы}
+\todo{}
 
 \section{Пару слов о типах}
+\todo{?}
+Лучше всего использовать следующие типы данных:
+\begin{itemize}
+    \item \textbf{off\_t}
+    \item \textbf{size\_t, ssize\_t}
+\end{itemize}
+
 
 \section{Common pitfalls}
+\begin{itemize}
+    \item Неатомарные операции (окно race)
+    \item Утечка дескрипторов
+    \item Файловая система гарантирует, что до тех пор пока 
+          ты держишь файловый дескриптор на файл с ним ничего 
+          не произойдет извне (функции оканчивающиеся на at, 
+          защита от TOCTOU)
+    \item \emph{openat}
+\end{itemize}
 
 \section{Литература}
 \begin{itemize}
