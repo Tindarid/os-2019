@@ -19,16 +19,24 @@
     \item Минусы: время доступа, надежность
 \end{itemize}
 
+\subsection{SSD}
+\begin{itemize}
+    \item \textbf{SATA} и \textbf{NVME} --- протоколы для дисков
+    \item \textbf{NVME} --- новомодная штука для \textbf{SSD}
+    \item Плюсы: время доступа
+    \item Минусы: надежность, стоимость, объем
+\end{itemize}
+
 \subsection{Общее}
 \begin{itemize}
     \item \textbf{EOPS} --- \todo{}
     \item \textbf{seek} --- рандомное чтение (512 байт)
-    \item \textbf{SATA} и \textbf{NVME} --- протоколы для дисков
-    \item \textbf{NVME} --- новомодная штука для \textbf{SSD}
     \item Минимум информации: сектор --- 512 байт -> 4096 байт
     \item Чтение одного байта равносильно чтению всего сектора с этим байтом
     \item Запись одного байта --- считать один сектор, заменить байт и записать один сектор
-    \item Аналогия --- процессор-память --- \textbf{cacheline}
+    \item Аналогия --- процессор-память --- \textbf{cacheline} 
+        
+         (кэшируется линиями, а на диск записывается и считывается секторами)
 \end{itemize}
 
 \section{Быстродействие}
@@ -84,8 +92,8 @@
 
 \section{Файл}
 \begin{itemize}
-    \item Абстракция для данных
-    \item Последовательность байтов
+    \item Абстракция для данных (для Kernelspace)
+    \item Последовательность байтов (для Userspace)
     \item Формат не определен
     \item \textbf{Unix} --- все есть файл (абстракция-интерфейс внутри ядра)
     \item Типы файлов 
@@ -103,8 +111,9 @@
     \item Содержит имена находящихся в ней файлов
     \item $.$ --- ссылка на текущую
     \item $..$ --- ссылка на родителя
-    \item \shell{cd}, \shell{pwd}
-    \item Формирование дерева: \shell{ls}
+    \item \shell{cd} --- сменить директорию
+    \item \shell{pwd} --- текущая директория
+    \item \shell{ls} --- формирование дерева
     \item \shell{find} --- поиск
     \item \emph{filename vs pathname}: \shell{realpath}
 \end{itemize}
@@ -122,6 +131,7 @@
           
           \shell{chmod 123} --- 1 - user, 2 - group, 3 - other
     \item У процесса есть информация о том, кто его запустил
+    \item SGID --- \todo{}
 \end{itemize}
 \subsection{sticky bit}
 \begin{itemize}
@@ -131,6 +141,7 @@
 \end{itemize}
 
 \section{Иерархия}
+\todo{root.png}
 \begin{itemize}
     \item $/$
         \begin{itemize}
@@ -175,8 +186,15 @@
 \section{Атрибуты процесса}
 \todo{}
 
-\section{Файловые процессы}
+\section{Файловые системы}
 \todo{}
+
+\section{Проход по пути}
+\begin{itemize}
+    \item Рекурсивный процесс (увеличиваем индекс при проходе в глубину)
+    \item Количество seek по диску зависит от длины пути
+    \item namei (name-innode) --- lru-cache (файл <--> номер inode)
+\end{itemize}
 
 \section{Диски}
 \centerimage{disk-mechanism.jpg}{Устройство диска}{1}
