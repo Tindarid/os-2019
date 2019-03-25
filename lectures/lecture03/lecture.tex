@@ -218,41 +218,6 @@ Redundant Arrays of Independent Disks (Избыточный массив нез�
 \section{Организация файловых систем}
 Структура директорий: связный список и хэш-таблица
 
-Выделение памяти
-\begin{enumerate}
-    \item Линейное
-        \begin{itemize}
-            \item \todo{.png}
-            \item Объект задается началом и концом (здесь возникают проблемы внешней и внутренней фрагментации)
-            \item Perfomance: +sequential, +random
-        \end{itemize}
-    \item Список
-        \begin{itemize}
-            \item \todo{.png}
-            \item Perfomance: -sequential, --random
-            \item Надежность: -
-            \item Решает проблему внешней фрагментации
-            \item В каждом "блоке" указатель на следующий
-        \end{itemize}
-    \item FAT
-        \begin{itemize}
-            \item \todo{.png}
-            \item Все ссылки хранятся в начале диска --- их можно эффективно кэшировать
-        \end{itemize}
-    \item Индексированная
-        \begin{itemize}
-            \item \todo{.png}
-            \item Отдельный блок для ссылок на данные
-            \item Внутренняя фрагментация
-        \end{itemize}
-    \item UNIX
-        \begin{itemize}
-            \item \todo{.png}
-            \item Комбинированная
-            \item Косвенная многоуровневая адресация
-        \end{itemize}
-\end{enumerate}
-
 smart (\shell{smartctl}) --- оценка диска на практике
 
 Свободные сектора
@@ -260,6 +225,94 @@ smart (\shell{smartctl}) --- оценка диска на практике
     \item Bit Vector --- fast, space usage
     \item Список
 \end{enumerate}
+
+\begin{center}Выделение памяти\end{center}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/linked-allocation.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+Линейное
+\begin{itemize}
+    \item Объект задается началом и концом (здесь возникают проблемы внешней и внутренней фрагментации)
+    \item Perfomance: +sequential, +random
+\end{itemize}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/contiguous-allocation.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+Список
+\begin{itemize}
+    \item Perfomance: -sequential, --random
+    \item Надежность: -
+    \item Решает проблему внешней фрагментации
+    \item В каждом "блоке" указатель на следующий
+\end{itemize}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/fat-table.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+FAT
+\begin{itemize}
+    \item Все ссылки хранятся в начале диска --- их можно эффективно кэшировать
+\end{itemize}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/indexed-allocation.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+Индексированная
+\begin{itemize}
+    \item Отдельный блок для ссылок на данные
+    \item Внутренняя фрагментация
+\end{itemize}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/unix-inode.jpg}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+UNIX
+\begin{itemize}
+    \item Комбинированная
+    \item Косвенная многоуровневая адресация
+\end{itemize}
+\end{minipage}
+\end{figure}
 
 \section{Операции с файлами}
 \todo{3 картинки + презентация}
