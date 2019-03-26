@@ -186,20 +186,27 @@
 \end{itemize}
 
 \section{Inode}
-\todo{More from presentation}
 \begin{itemize}
     \item Директория задает mapping имени файла в его inode
     \item \shell{ln}
     \item Hardlink --- существует в рамках одной файловой системы
-    \item Softlink(symlink) --- бит l
+    \item Softlink(symlink) --- text string
     \item \shell{stat} --- информация о файле
     \item \emph{atime} --- время последнего доступа
     \item \emph{ctime} --- изменение мета-информации
     \item \emph{mtime}--- изменение содержимого файла
+    \item inode корневой файловой системы фиксирован --- 2
 \end{itemize}
 
 \section{Атрибуты процесса}
-\todo{}
+\subsection{Structures}
+\centerimage{kernel-datastructures.png}{Kernel structures}{0.5}
+\centerimage{process-table.png}{Processes}{0.5}
+\centerimage{file-table.png}{Files}{0.5}
+\centerimage{vnode-table.png}{Vnode and Inode}{0.5}
+\subsection{Duplication and sharing}
+\centerimage{dup.png}{Duplication}{0.5}
+\centerimage{file-sharing.png}{Sharing}{0.5}
 
 \section{Файловые системы}
 \centerimage{virtual-fs.jpg}{VFS}{1}
@@ -221,19 +228,38 @@
 
 \section{Диски}
 \centerimage{disk-mechanism.jpg}{Устройство диска}{1}
-\todo{Информация из презентации}
 \begin{itemize}
+    \item Устройство диска:
+          \begin{itemize}
+              \item сектор
+                    \begin{itemize}
+                        \item header: метаданные для контроллера диска
+                        \item данные
+                        \item trailer: ECC
+                    \end{itemize}
+              \item цилиндр
+              \item пластина
+              \item трэк
+              \item шпиндель
+          \end{itemize}
+    \item При записи данных на диск в сектора считаем и записываем \textbf{ECC},
+          при чтении считаем и затем сверяем (пытаемся исправить, если не сошлось)
+
+    \item \textbf{CLV} --- Constant Linear Velocity(\textbf{CDROM})
+    \item \textbf{CAV} --- Constant Angular Velocity(\textbf{HDD})
     \item На внешних цилиндрах больше секторов, чем на внутренних 
           => чем ближе к центру тем меньше скорость нужна (CD)
     \item На жестких дисках --- постоянная угловая скорость 
           (в центре больше плотность)
     \item \emph{Partitioning} --- разделение диска на несколько 
-          логических частей (партиции, на каждой своя файловая система)
+          логических частей (партиции, на каждой своя файловая система),
+          они трактуются как "отдельные" диски
     \item Существует другой подход - "собственная" файловая система 
           на "сыром" диске (MySQL)
     \item Современный контроллер жесткого диска может находить механически поврежденные блоки (bad blocks) и делать remap их на некоторые запасные (sector sparing: replace bad sectors with spare)
     \item \shell{man 1 badblocks}
-    \item Bootblock --- \todo{}
+    \item Bootblock --- bootstrap program at fixed location
+    \item \textbf{MBR} --- master boot record --- boot code + partition table
 \end{itemize}
 
 \newpage
@@ -379,7 +405,7 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \section{Пару слов о типах}
 Лучше всего использовать следующие типы данных:
 
-\todo{?}
+\todo{Why?}
 \begin{itemize}
     \item \textbf{off\_t}
     \item \textbf{size\_t}

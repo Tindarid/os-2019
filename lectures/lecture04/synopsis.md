@@ -3,7 +3,7 @@
 
 # Что читать?
   * Understanding the Linux Kernel by Daniel P. Bovet & Marco Cesati
-  * Intel 64 and IA-32 Architectures Software Developer's Manual Volume 3
+  * Intel 64 and IA-32 Architectures Software Developer''s Manual Volume 3
   * x86 Instruction Set Architecture by Tom Shanley
   * What every programmer should know about memory by Ulrich Drepper
   * Безопасное программирование на C и C++. Роберт С. Сиакорд
