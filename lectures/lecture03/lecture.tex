@@ -92,6 +92,7 @@
           Различные способы упорядочивания(\textbf{SCAN})
 \end{enumerate}
 
+\newpage
 \section{Файл}
 \begin{itemize}
     \item Абстракция для данных (для Kernelspace)
@@ -198,27 +199,6 @@
     \item inode корневой файловой системы фиксирован --- 2
 \end{itemize}
 
-\section{Атрибуты процесса}
-\subsection{Structures}
-\centerimage{kernel-datastructures.png}{Kernel structures}{0.5}
-\centerimage{process-table.png}{Processes}{0.5}
-\centerimage{file-table.png}{Files}{0.5}
-\centerimage{vnode-table.png}{Vnode and Inode}{0.5}
-\subsection{Duplication and sharing}
-\centerimage{dup.png}{Duplication}{0.5}
-\centerimage{file-sharing.png}{Sharing}{0.5}
-
-\section{Файловые системы}
-\centerimage{virtual-fs.jpg}{VFS}{1}
-\todo{Описания}
-\begin{itemize}
-    \item \textbf{VFS}
-    \item Сетевые
-    \item Виртуальные
-    \item На диске
-    \item В памяти
-\end{itemize}
-
 \section{Проход по пути}
 \begin{itemize}
     \item Рекурсивный процесс (увеличиваем индекс при проходе в глубину)
@@ -226,8 +206,49 @@
     \item namei (name-innode) --- lru-cache (файл <--> номер inode)
 \end{itemize}
 
+\section{Атрибуты процесса}
+\subsection{Structures}
+\centerimage{kernel-datastructures.png}{Kernel structures}{0.6}
+\subsection{Duplication and sharing}
+\begin{figure}[H]
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/dup.png}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\includegraphics[width=\textwidth]{images/file-sharing.png}
+\end{minipage}
+\caption{Duplication and sharing}
+\end{figure}
+\subsection{Deep view}
+\centerimage{process-table.png}{Processes}{0.39}
+\centerimage{file-table.png}{Files}{0.39}
+\centerimage{vnode-table.png}{Vnode and Inode}{0.39}
+
+\section{Файловые системы}
+\begin{figure}[H]
+\captionsetup{singlelinecheck=off}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/virtual-fs.jpg}
+\end{minipage}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+Виды
+\begin{itemize}
+    \item \textbf{VFS}
+    \item Сетевые
+    \item Виртуальные
+    \item На диске
+    \item В памяти
+\end{itemize}
+\todo{Описания}
+\end{minipage}
+\end{figure}
+
 \section{Диски}
-\centerimage{disk-mechanism.jpg}{Устройство диска}{1}
+\centerimage{disk-mechanism.jpg}{Устройство диска}{0.8}
 \begin{itemize}
     \item Устройство диска:
           \begin{itemize}
