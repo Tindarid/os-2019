@@ -35,21 +35,6 @@
     \item Как отличать процессы между собой - \emph{pid}
 \end{itemize}
 
-\section{Sheduler}
-\todo{Состояния процесса}
-\begin{itemize}
-    \item Заводит таймер для процесса(квант времени), после его истечения 
-    или когда процесс сам закончился выбирает другой процесс.
-
-    \item Производительность - разбиение на несколько процессов
-
-    \item Дизайн приложения
-\end{itemize}
-\centerimage{process-interruption.png}{Process-interruption}{0.8}
-
-\section{API and ABI}
-\todo{}
-
 \section{Модель памяти процесса}
 \begin{figure}[H]
 \captionsetup{singlelinecheck=off}
@@ -78,9 +63,12 @@
     \emph{fork}-бомба --- каждый дочерний процесс делает \emph{fork()} и так далее
     \item \emph{wait(pid)} --- ждем процесс
     \item \emph{exit()} --- завершаемся
+    \newpage
     \item \emph{execve()} --- запустить программу
     \code{execve-example.c}{C}
-    \item \emph{SIGKILL} --- принудительное завершение другого процесса (\shell{kill}) \todo{Подробнее}
+    \item \emph{SIGKILL} --- принудительное завершение другого процесса (\shell{kill}) 
+        
+        \todo{Подробнее}
 \end{itemize}
 
 \section{PID и дерево процессов}
@@ -108,6 +96,7 @@
 \end{enumerate}
 \emph{PID} - переиспользуемая вещь (таблица процессов)
 
+\newpage
 \section{Calling convention}
 \shell{man syscall} - как вызываются \emph{syscall}
 
@@ -154,10 +143,26 @@
     \item finalizers, библиотечный вызов \emph{exit}
 \end{itemize}
 
+\section{API and ABI}
+\todo{}
+
 \section{Процесс и ОС}
+\subsection{Scheduler}
+\begin{itemize}
+    \item Заводит таймер для процесса(квант времени), после его истечения 
+    или когда процесс сам закончился выбирает другой процесс.
+
+    \item Производительность - разбиение на несколько процессов
+
+    \item Дизайн приложения
+\end{itemize}
+\subsection{Interruption}
+\centerimage{process-interruption.png}{Process-interruption}{0.7}
+
+\subsection{Состояния процесса}
 \centerimage{state-diagram.png}{Диаграмма времени жизни процесса и взаимодействия с ОС}{0.5}
 
-\section{Переключение контекста}
+\subsection{Переключение контекста}
 Шедулер ОС раскидывает процессы и создает иллюзию одновременного выполнения
 \centerimage{context-switch.png}{Иллюзия многозадачности}{0.5}
 
@@ -196,4 +201,6 @@
 \todo{Секция Контекст процесса}
 
 \todo{Секция Системные процессы}
+
+\todo{Состояния процесса}
 \end{document}
