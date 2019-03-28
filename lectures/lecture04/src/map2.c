@@ -12,7 +12,7 @@ int main() {
     const int fd = open("/etc/passwd", O_RDONLY);
 
     struct stat st;
-    assert(fstat(fd, &st) != -1)
+    assert(fstat(fd, &st) != -1);
     char *addr = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
     for (size_t i = 0; i < st.st_size; ++i) {

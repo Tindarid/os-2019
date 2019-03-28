@@ -1,0 +1,38 @@
+execve("./map1", ["./map1"], 0x7ffd885b3ec8 /* 35 vars */) = 0
+brk(NULL)                               = 0x55ae6e541000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fffa5d718a0) = -1 EINVAL (Invalid argument)
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=121010, ...}) = 0
+mmap(NULL, 121010, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f730cd57000
+close(3)                                = 0
+openat(AT_FDCWD, "/usr/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0000C\2\0\0\0\0\0"..., 832) = 832
+lseek(3, 792, SEEK_SET)                 = 792
+read(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\201\336\t\36\251c\324\233E\371SoK\5H\334"..., 68) = 68
+fstat(3, {st_mode=S_IFREG|0755, st_size=2136840, ...}) = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f730cd55000
+lseek(3, 792, SEEK_SET)                 = 792
+read(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\201\336\t\36\251c\324\233E\371SoK\5H\334"..., 68) = 68
+lseek(3, 864, SEEK_SET)                 = 864
+read(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32) = 32
+mmap(NULL, 1848896, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7f730cb91000
+mprotect(0x7f730cbb3000, 1671168, PROT_NONE) = 0
+mmap(0x7f730cbb3000, 1355776, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7f730cbb3000
+mmap(0x7f730ccfe000, 311296, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x16d000) = 0x7f730ccfe000
+mmap(0x7f730cd4b000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b9000) = 0x7f730cd4b000
+mmap(0x7f730cd51000, 13888, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f730cd51000
+close(3)                                = 0
+arch_prctl(ARCH_SET_FS, 0x7f730cd56500) = 0
+mprotect(0x7f730cd4b000, 16384, PROT_READ) = 0
+mprotect(0x55ae6d1a7000, 4096, PROT_READ) = 0
+mprotect(0x7f730cd9e000, 4096, PROT_READ) = 0
+munmap(0x7f730cd57000, 121010)          = 0
+fstat(1, {st_mode=S_IFREG|0644, st_size=2085, ...}) = 0
+brk(NULL)                               = 0x55ae6e541000
+brk(0x55ae6e562000)                     = 0x55ae6e562000
+write(1, "0x7fffa5d71887\n0x55ae6d1a5149\n", 300x7fffa5d71887
+0x55ae6d1a5149
+) = 30
+exit_group(0)                           = ?
++++ exited with 0 +++

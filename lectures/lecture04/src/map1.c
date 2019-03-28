@@ -12,7 +12,7 @@ int main() {
     const int fd = open("/etc/passwd", O_RDONLY);
 
     struct stat st;
-    assert(fstat(fd, &st) != -1)
+    assert(fstat(fd, &st) != -1);
     void *addr = mmap(NULL, st.st_size, PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE, fd, 0);
     //Отображение файла начиная с нуля
 

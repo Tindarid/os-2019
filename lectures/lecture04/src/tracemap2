@@ -1,0 +1,62 @@
+execve("./map1", ["./map1"], 0x7ffc9c1e94e8 /* 35 vars */) = 0
+brk(NULL)                               = 0x5607682c3000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7fff599b8fa0) = -1 EINVAL (Invalid argument)
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=121010, ...}) = 0
+mmap(NULL, 121010, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fe33144d000
+close(3)                                = 0
+openat(AT_FDCWD, "/usr/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0000C\2\0\0\0\0\0"..., 832) = 832
+lseek(3, 792, SEEK_SET)                 = 792
+read(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\201\336\t\36\251c\324\233E\371SoK\5H\334"..., 68) = 68
+fstat(3, {st_mode=S_IFREG|0755, st_size=2136840, ...}) = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe33144b000
+lseek(3, 792, SEEK_SET)                 = 792
+read(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\201\336\t\36\251c\324\233E\371SoK\5H\334"..., 68) = 68
+lseek(3, 864, SEEK_SET)                 = 864
+read(3, "\4\0\0\0\20\0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0", 32) = 32
+mmap(NULL, 1848896, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fe331287000
+mprotect(0x7fe3312a9000, 1671168, PROT_NONE) = 0
+mmap(0x7fe3312a9000, 1355776, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x22000) = 0x7fe3312a9000
+mmap(0x7fe3313f4000, 311296, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x16d000) = 0x7fe3313f4000
+mmap(0x7fe331441000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b9000) = 0x7fe331441000
+mmap(0x7fe331447000, 13888, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fe331447000
+close(3)                                = 0
+arch_prctl(ARCH_SET_FS, 0x7fe33144c500) = 0
+mprotect(0x7fe331441000, 16384, PROT_READ) = 0
+mprotect(0x560767b05000, 4096, PROT_READ) = 0
+mprotect(0x7fe331494000, 4096, PROT_READ) = 0
+munmap(0x7fe33144d000, 121010)          = 0
+openat(AT_FDCWD, "/etc/passwd", O_RDONLY) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=1053, ...}) = 0
+mmap(NULL, 1053, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fe33146a000
+fstat(1, {st_mode=S_IFREG|0644, st_size=2251, ...}) = 0
+brk(NULL)                               = 0x5607682c3000
+brk(0x5607682e4000)                     = 0x5607682e4000
+munmap(0x7fe33146a000, 1053)            = 0
+close(3)                                = 0
+write(1, "root:x:0:0::/root:/bin/bash\nbin:"..., 1053root:x:0:0::/root:/bin/bash
+bin:x:1:1::/:/sbin/nologin
+daemon:x:2:2::/:/sbin/nologin
+mail:x:8:12::/var/spool/mail:/sbin/nologin
+ftp:x:14:11::/srv/ftp:/sbin/nologin
+http:x:33:33::/srv/http:/sbin/nologin
+nobody:x:65534:65534:Nobody:/:/sbin/nologin
+dbus:x:81:81:System Message Bus:/:/sbin/nologin
+systemd-journal-remote:x:982:982:systemd Journal Remote:/:/sbin/nologin
+systemd-network:x:981:981:systemd Network Management:/:/sbin/nologin
+systemd-resolve:x:980:980:systemd Resolver:/:/sbin/nologin
+systemd-timesync:x:979:979:systemd Time Synchronization:/:/sbin/nologin
+systemd-coredump:x:978:978:systemd Core Dumper:/:/sbin/nologin
+uuidd:x:68:68::/:/sbin/nologin
+git:x:977:977:git daemon user:/:/usr/bin/git-shell
+nursan:x:1000:1000::/home/nursan:/bin/bash
+avahi:x:976:976:Avahi mDNS/DNS-SD daemon:/:/sbin/nologin
+colord:x:975:975:Color management daemon:/var/lib/colord:/sbin/nologin
+polkitd:x:102:102:PolicyKit daemon:/:/sbin/nologin
+rtkit:x:133:133:RealtimeKit:/proc:/sbin/nologin
+geoclue:x:974:974:Geoinformation service:/var/lib/geoclue:/sbin/nologin
+) = 1053
+exit_group(0)                           = ?
++++ exited with 0 +++
