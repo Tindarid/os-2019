@@ -1,0 +1,10 @@
+execve("./map1", ["./map1"], 0x7ffd039a12a8 /* 35 vars */) = 0
+...
+...
+...
+openat(AT_FDCWD, "/etc/passwd", O_RDONLY) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=1053, ...}) = 0
+mmap(NULL, 1053, PROT_READ, MAP_PRIVATE|MAP_ANONYMOUS, 3, 0) = 0x7f7afa213000
+close(3)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

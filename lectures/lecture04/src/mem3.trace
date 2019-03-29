@@ -1,0 +1,11 @@
+execve("./mem3", ["./mem3"], 0x7ffd885b3ec8 /* 35 vars */) = 0
+...
+...
+...
+brk(NULL)                               = 0x55ae6e541000
+brk(0x55ae6e562000)                     = 0x55ae6e562000
+write(1, "0x7fffa5d71887\n0x55ae6d1a5149\n", 300x7fffa5d71887
+0x55ae6d1a5149
+) = 30
+exit_group(0)                           = ?
++++ exited with 0 +++

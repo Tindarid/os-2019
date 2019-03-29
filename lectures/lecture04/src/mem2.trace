@@ -1,0 +1,12 @@
+execve("./mem2", ["./mem2"], 0x7ffeb9fe31b8 /* 35 vars */) = 0
+...
+...
+...
+brk(NULL)                               = 0x557938333000
+brk(0x557938354000)                     = 0x557938354000
+write(1, "Hello\n", 6Hello
+)                  = 6
+write(1, "\0\n", 2
+)                     = 2
+exit_group(0)                           = ?
++++ exited with 0 +++
