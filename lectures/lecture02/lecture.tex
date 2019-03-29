@@ -7,19 +7,17 @@
 \section{Общее}
 \begin{itemize}
     \item Процесс --- экземпляр запущенной программы. Процессы должны уметь договариваться
-    чтобы сосуществовать, но в то же время не знать друг о друге и владеть
-    монополией на ресурс машины. 
-
-    \item С точки зрения ОС процесс --- это абстракция, позволяющая абстрагироваться от внутренностей процеса. 
-
+          чтобы сосуществовать, но в то же время не знать друг о друге и владеть
+          монополией на ресурс машины.
+    \item С точки зрения ОС процесс --- это абстракция, позволяющая 
+          абстрагироваться от внутренностей процеса.
     \item С точки зрения программиста процесс --- абстракция, 
-    которая позволяет думать что мы монопольно владеем ресурсами машины.
-
+          которая позволяет думать что мы монопольно владеем ресурсами машины.
     \item На момент выполнения процесс можно охарактеризовать полным состоянием его памяти
-    и регистров. Чтобы приостановить процесс нам нужно просто сохранить его 'отпечаток', 
-    а чтобы возобновить нужно загрузить его память и регистры
-
-    \item Батч-процессы (например, сборки или компиляции) не требуют отзывчивости пока жрут ресурсы.
+          и регистров. Чтобы приостановить процесс нам нужно просто сохранить его 'отпечаток', 
+          а чтобы возобновить нужно загрузить его память и регистры.
+    \item Батч-процессы (например, сборки или компиляции) не требуют 
+          отзывчивости пока жрут ресурсы.
 \end{itemize}
 
 Могут быть сформулированы следующие тезисы:
@@ -37,10 +35,10 @@
 
 \section{Модель памяти процесса}
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
 \begin{minipage}[c]{0.25\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/memory.png}
+\caption{Memory model}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.7\linewidth}
@@ -66,9 +64,8 @@
     \newpage
     \item \emph{execve()} --- запустить программу
     \code{execve-example.c}{C}
+    \item \emph{kill()} --- послать сигнал процессу
     \item \emph{SIGKILL} --- принудительное завершение другого процесса (\shell{kill}) 
-        
-        \todo{Подробнее}
 \end{itemize}
 
 \section{PID и дерево процессов}
@@ -140,11 +137,19 @@
 
     \item \emph{ERRNO} --- переменная с номером последней ошибки, strerror
 
-    \item finalizers, библиотечный вызов \emph{exit}
+    \item \emph{finalizers}, библиотечный вызов \emph{exit}
 \end{itemize}
 
 \section{API and ABI}
-\todo{}
+\begin{itemize}
+    \item \textbf{API} (Application Program Interface)\\
+          Интерфейс коммуникации на уровне исходного кода
+          (include, functions, etc)
+    \item \textbf{ABI} (Application Binary Interface)\\
+          Интерфейс коммуникации на бинарном уровне
+          (как параметры передаются функциям, кто очищает
+          параметры функции и т.д.)
+\end{itemize}
 
 \section{Процесс и ОС}
 \subsection{Scheduler}
@@ -160,12 +165,39 @@
 \centerimage{process-interruption.png}{Process-interruption}{0.7}
 
 \subsection{Состояния процесса}
-\centerimage{state-diagram.png}{Диаграмма времени жизни процесса и взаимодействия с ОС}{0.5}
+\begin{figure}[H]
+\begin{minipage}[c]{0.6\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/state-diagram.png}
+\caption{Диаграмма жизни процесса}
+\end{minipage}
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+Процесс может быть в одном из следующих состояний
+\begin{itemize}
+    \item \textbf{runnable}
+    \item \textbf{running}
+    \item sleeping: \textbf{interruptible}
+    \item sleeping: \textbf{uninterruptible}
+    \item \textbf{zombie}
+\end{itemize}
+\end{minipage}
+\end{figure}
 
 \subsection{Переключение контекста}
 Шедулер ОС раскидывает процессы и создает иллюзию одновременного выполнения
 \centerimage{context-switch.png}{Иллюзия многозадачности}{0.5}
 
+\section{Контекст процесса}
+\todo{}
+
+\section{Системные процессы}
+\todo{What is this?}
+\begin{itemize}
+    \item kthreadd
+    \item kswapd
+    \item ksoftirqd
+\end{itemize}
 \section{Литература}
 \begin{itemize}
     \item Windows Internals by Mark Russinovich
@@ -195,12 +227,4 @@
 
     \item Язык имплементации - C или C++.
 \end{itemize}
-
-\todo{Добавить еще одну картинку из images}
-
-\todo{Секция Контекст процесса}
-
-\todo{Секция Системные процессы}
-
-\todo{Состояния процесса}
 \end{document}
