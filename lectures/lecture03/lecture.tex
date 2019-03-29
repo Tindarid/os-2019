@@ -45,6 +45,7 @@
 \subsection{Интересные числа}
 \begin{center}
 Числа, которые должен знать каждый программист
+\\~\\
 \begin{tabular}{| l | l |}
     \hline
     Cycle                            & 1   ns \\ \hline
@@ -209,27 +210,31 @@
 \end{itemize}
 
 \section{Атрибуты процесса}
-\subsection{Structures}
-\centerimage{kernel-datastructures.png}{Structures of Kernel}{0.6}
-
-\subsection{Duplication and sharing}
 \begin{figure}[H]
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-\includegraphics[width=\textwidth]{images/dup.png}
-\caption{Duplication}
+\includegraphics[width=\textwidth]{images/kernel-datastructures.png}
+\caption{Structures of Kernel}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
-\includegraphics[width=\textwidth]{images/file-sharing.png}
-\caption{Sharing}
+\includegraphics[width=\textwidth]{images/process-table.png}
+\caption{Processes}
 \end{minipage}
 \end{figure}
-
-\subsection{Deep view}
-\centerimage{process-table.png}{Processes}{0.39}
-\centerimage{file-table.png}{Files}{0.39}
-\centerimage{vnode-table.png}{Vnode and Inode}{0.39}
+\begin{figure}[H]
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/file-table.png}
+\caption{Files}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\includegraphics[width=\textwidth]{images/vnode-table.png}
+\caption{Vnode and Inode}
+\end{minipage}
+\end{figure}
+\todo{???}
 
 \section{Диски}
 \begin{figure}[H]
@@ -428,10 +433,33 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \section{Операции с файлами}
-\todo{3 картинки + презентация}
+\begin{figure}[H]
+\begin{minipage}[c]{0.25\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/layered.jpg}
+\caption{Layered}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.75\linewidth}
+\centering
+\includegraphics[scale=0.38]{images/dup.png}
+\caption{Duplication}
+~
+
+~
+\includegraphics[scale=0.37]{images/file-sharing.png}
+\caption{Sharing}
+\end{minipage}
+\end{figure}
 
 \section{Системные вызовы}
-\todo{}
+\centerimage{system-call.png}{Systemcall}{0.35}
+\begin{itemize}
+    \item Дескриптор (например: \emph{stdin}, ...) --- интерфейс связи с ресурсом
+    \item Файловый дескриптор
+\end{itemize}
+\centerimage{file-system-structures.jpg}{Read() and Open()}{1}
+\todo{Доделать}
 
 \section{Пару слов о типах}
 Лучше всего использовать следующие типы данных:
@@ -454,6 +482,7 @@ smart (\shell{smartctl}) --- оценка диска на практике
           защита от \textbf{TOCTOU})
     \item \emph{openat}
 \end{itemize}
+\todo{What is TOCTOU}
 
 \section{Литература}
 \begin{itemize}
