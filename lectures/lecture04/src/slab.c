@@ -3,10 +3,10 @@ struct SLAB {
     object_t objects[64];
     SLAB *prev;
     SLAB *next;
-}
+};
 
-pool {
+struct pool {
     SLAB *full;
     SLAB *parted;
     SLAB *empth;
-}
+};
