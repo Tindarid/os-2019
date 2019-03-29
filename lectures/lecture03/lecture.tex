@@ -79,20 +79,23 @@
 \textcolor{blue}{\href{https://slideplayer.com/slide/5209336}{Ссылка на презентацию}}
 \begin{enumerate}
     \item SLIDE 6
-        
+
           Алгоритмы элеватора обрабатывают последовательности запросов к диску (переупорядочивают их)
     \item SLIDE 7
 
-          \textbf{FCFS} (FIFO) --- самый простой и медленный
+          \textbf{FCFS} (FIFO)
+
+          Самый простой и медленный
     \item SLIDE 8-9
 
-          \textbf{SSTF} (Shortest Seek Time First)--- сортировка (очередной запрос определяется наименьшим временем seek)
+          \textbf{SSTF} (Shortest Seek Time First)
+
+          Сортировка (очередной запрос определяется наименьшим временем seek)
     \item SLIDE 10 - \dots
 
-          Различные способы упорядочивания(\textbf{SCAN})
+          Различные способы упорядочивания (\textbf{SCAN})
 \end{enumerate}
 
-\newpage
 \section{Файл}
 \begin{itemize}
     \item Абстракция для данных (для Kernelspace)
@@ -147,7 +150,6 @@
 
 \section{Иерархия}
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
 \begin{itemize}
@@ -172,9 +174,9 @@
 \begin{minipage}[c]{0.37\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/root.png}
+\caption{Типичный вид корня в Linux}
 \end{minipage}
 \end{figure}
-\begin{center}(На картинке изображен типичный вид корня в Linux)\end{center}
 
 \section{Монтирование}
 \begin{itemize}
@@ -208,61 +210,52 @@
 
 \section{Атрибуты процесса}
 \subsection{Structures}
-\centerimage{kernel-datastructures.png}{Kernel structures}{0.6}
+\centerimage{kernel-datastructures.png}{Structures of Kernel}{0.6}
+
 \subsection{Duplication and sharing}
 \begin{figure}[H]
 \begin{minipage}[c]{0.5\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/dup.png}
+\caption{Duplication}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \includegraphics[width=\textwidth]{images/file-sharing.png}
+\caption{Sharing}
 \end{minipage}
-\caption{Duplication and sharing}
 \end{figure}
+
 \subsection{Deep view}
 \centerimage{process-table.png}{Processes}{0.39}
 \centerimage{file-table.png}{Files}{0.39}
 \centerimage{vnode-table.png}{Vnode and Inode}{0.39}
 
-\section{Файловые системы}
+\section{Диски}
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.6\linewidth}
 \centering
-\includegraphics[width=\textwidth]{images/virtual-fs.jpg}
+\includegraphics[width=\textwidth]{images/disk-mechanism.jpg}
+\caption{Устройство диска}
 \end{minipage}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.4\linewidth}
 \centering
-Виды
+Устройство диска
 \begin{itemize}
-    \item \textbf{VFS}
-    \item Сетевые
-    \item Виртуальные
-    \item На диске
-    \item В памяти
+  \item сектор
+        \begin{itemize}
+            \item header: метаданные для контроллера диска
+            \item данные
+            \item trailer: ECC
+        \end{itemize}
+  \item цилиндр
+  \item пластина
+  \item трэк
+  \item шпиндель
 \end{itemize}
-\todo{Описания}
 \end{minipage}
 \end{figure}
-
-\section{Диски}
-\centerimage{disk-mechanism.jpg}{Устройство диска}{0.8}
 \begin{itemize}
-    \item Устройство диска:
-          \begin{itemize}
-              \item сектор
-                    \begin{itemize}
-                        \item header: метаданные для контроллера диска
-                        \item данные
-                        \item trailer: ECC
-                    \end{itemize}
-              \item цилиндр
-              \item пластина
-              \item трэк
-              \item шпиндель
-          \end{itemize}
     \item При записи данных на диск в сектора считаем и записываем \textbf{ECC},
           при чтении считаем и затем сверяем (пытаемся исправить, если не сошлось)
 
@@ -283,15 +276,14 @@
     \item \textbf{MBR} --- master boot record --- boot code + partition table
 \end{itemize}
 
-\newpage
 \section{RAID}
 Redundant Arrays of Independent Disks (Избыточный массив независимых дисков)
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/raid-levels.jpg}
+\caption{RAID levels}
 \end{minipage}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
@@ -330,10 +322,10 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \begin{center}\textbf{Выделение памяти (allocation)}\end{center}
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.47\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/linked-allocation.jpg}
+\caption{Linked allocation}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
@@ -348,10 +340,10 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.47\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/contiguous-allocation.jpg}
+\caption{Contiguous allocation}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
@@ -367,10 +359,10 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.47\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/fat-table.jpg}
+\caption{FAT allocation}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
@@ -384,15 +376,15 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.47\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/indexed-allocation.jpg}
+\caption{Indexed allocation}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
 \centering
-\textbf{Indexed}
+\textbf{Индексированное}
 \begin{itemize}
     \item Отдельный блок для ссылок на данные
     \item Внутренняя фрагментация
@@ -401,10 +393,10 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \begin{figure}[H]
-\captionsetup{singlelinecheck=off}
-\begin{minipage}[c]{0.5\linewidth}
+\begin{minipage}[c]{0.47\linewidth}
 \centering
 \includegraphics[width=\textwidth]{images/unix-inode.jpg}
+\caption{UNIX allocation}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[c]{0.5\linewidth}
@@ -413,6 +405,24 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \begin{itemize}
     \item Комбинированная
     \item Косвенная многоуровневая адресация
+\end{itemize}
+\end{minipage}
+\end{figure}
+
+\section{Файловые системы}
+\begin{figure}[H]
+\begin{minipage}[c]{0.6\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/virtual-fs.jpg}
+\caption{VFS}
+\end{minipage}
+\begin{minipage}[c]{0.4\linewidth}
+\begin{itemize}
+    \item \textbf{VFS}
+    \item Сетевые
+    \item Виртуальные
+    \item На диске
+    \item В памяти
 \end{itemize}
 \end{minipage}
 \end{figure}
