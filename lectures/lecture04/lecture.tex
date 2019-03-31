@@ -76,6 +76,42 @@
 \section{Переключение контекста}
 \todo{}
 
+\section{Примеры использования}
+\subsection{Подкачка по требованию}
+\begin{itemize}
+    \item Пусть у нас есть фильм. Давайте читать этот файл используя
+          окно считывания. Прикольно. Но можем замаппить файл в память 
+          и читать его.
+    \item Каждый раз когда читаем еще незагруженную страницу, \textbf{page fault},
+          далее ядро подгружает страницу.
+    \item Еще пример --- \shell{chrome \-\-help} (нам незачем инициализировать всю работу приложения)
+    \item Ядро достаточно оптимально все это делает.
+\end{itemize}
+\subsection{Copy on write}
+\code{copyonwrite.cpp}{C++}
+Какое значение x будет в parent и в child?
+
+Немного по-другому
+\code{copyonwrite2.cpp}{C++}
+\begin{itemize}
+    \item Одинаковые адреса, значение разное (child --- 43, parent --- 42)
+    \item При создании процесса --- ничего не делаем
+    \item За всей этой истории стоит \textbf{MMU}
+\end{itemize}
+
+\subsection{Swap}
+\begin{itemize}
+    \item Скидывание на диск холодной data
+    \item \textbf{MMU} ходит по кругу и проверяет использование страниц
+\end{itemize}
+
+\subsection{Другие}
+\begin{itemize}
+    \item Рост стека
+    \item Разделяемый текст => Разделяемые библиотеки
+    \item Разделяемая память
+\end{itemize}
+
 \section{Выделение памяти}
 \subsection{Пример №1}
 \code{mem1.c}{C}
