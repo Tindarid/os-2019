@@ -1,0 +1,151 @@
+\chapter{Линковка, безопасность}
+
+\section{Литература}
+\textbf{elf} --- executable linked ...
+Есть еще \textbf{dwarf}
+Последняя книга будет интересна тем, кто хочет работать с безопасностью
+
+\section{Превыполнение? (2 слайд)}
+Процесс компиляции... (ассемблер, линковщик)
+
+\section{Пример}
+Код
+Мы играем роль линковщика
+
+\section{Ассемблер}
+Правильные адреса расставляет линкер
+
+\section{Объектный файл}
+Текст --- функции
+Данные --- переменные
+Таблица символов --- карта символов
+
+\section{Линковщик}
+Занимается "склеиванием" объектных файлов
+\shell{ld}
+\shell{ld --verbose} --- показывает скрипт, который будет использоваться для линковки
+1.h
+#IFNDEF DEF_H
+#DEFINE DEF_H
+
+void one();
+static void two();
+
+#ENDIF
+
+main.c
+#include "1.h"
+
+int main() {
+    one();
+}
+
+1.c
+#include "1.h"
+int x;
+static int y;
+
+void one() {
+
+}
+
+static void two() {
+
+}
+
+Makefile
+all:
+    cc -S 1.c -o 1.S
+    cc 1.S -o 1.o
+    cc -S main.c -o main.S
+    cc main.S -o main.o
+    cc main.o 1.o -o main
+
+\shell{cat main.s}
+\shell{cat 1.s}
+
+\shell{nm main.o}
+\shell{nm 1.o}
+\textbf{T} --- text
+\textbf{U} --- undefined (в другой единице трансляции)
+\textbf{b} --- bss секция
+\textbf{d} --- data
+\shell{file main} --- Что за файл?
+\shell{nm main}
+
+Все склеиваем и не можем переиспользовать код
+Тогда на помощь приходят статические библиотеки
+
+\subsection{Статическая линковка}
+\shell{ar rcs}
+Единожды создаем статическую библиотеку и отдаем ее на линковку
+Минусы: если есть уязвимость -> перекомпилировать все, находится в каждом файле
+Плюсы: просто и понятно
+
+\subsection{Динамическая линковка}
+Экономия памяти
+Не нужна пересборка
+Первый минус --- откладываем линковку до времени \emph{runtime}
+Второй минус --- ?
+\shell{man ld.so} --- \emph{runtime} линкер
+Две идеи --- 
+
+
+\section{Linking vs Loading}
+\textbf{Linking} --- связываем во что-то большее (\emph{compile time})
+\textbf{Loading} --- загрузка в память (\emph{runtime})
+
+\section{Динамическая линковка и PIC}
+Картинка(got.png)
+Картинка(offset.png)
+\textbf{PLT/GOT}
+Картинка(plt-before.png)
+\textbf{PLT} находится в \emph{read-only} mode
+Картинка(plt-after.png)
+Зачем это нужно? Чтобы лениво подгружать
+С динамическими библиотеками можно связываться явно и неявно
+Явно --- \emph{dlclose, dlopen, dimopen, dlsym, dlvsym}
+Неявно?:
+#include <assert.h>
+#include <pthread.h>
+
+static void* loop(void * arg) {
+
+}
+
+int main() {
+    pthread_t thread;
+
+    pthread_create(&thread, NULL, loop, NULL);
+
+    pthread_join(thread);
+}
+
+\shell{cc main.c}
+В чем проблема?
+
+\shell{cc main.c -lpthread}
+\shell{ldd ./a.out}
+Надо указать, что нужно слинковаться
+Тут еще \textbf{ASLR} работает
+
+Еще пример
+main.c
+#include <assert.h>
+#include <dlfcn.h>
+
+int main() {
+    void* handle = dlopen("lib/x86_64-linux-gnu/libpthread.so.0", RTLD_LAZY);
+    assert(handle);
+    void* addr = disym(handle, "pthread_create");
+
+    printf("Addr: %p\n", addr);
+
+    dlclose(handle);
+}
+\shell{cc main.c}
+Не работает снова?
+\shell{cc main.c -ldl}
+
+\textbf{ASLR} работает, но младшие байты остаются одними и те же
+O_CLOEXEC --- флаг для безопасности
