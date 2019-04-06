@@ -24,48 +24,15 @@
 Занимается "склеиванием" объектных файлов
 \shell{ld}
 \shell{ld --verbose} --- показывает скрипт, который будет использоваться для линковки
-1.h
-#IFNDEF DEF_H
-#DEFINE DEF_H
 
-void one();
-static void two();
-
-#ENDIF
-
-main.c
-#include "1.h"
-
-int main() {
-    one();
-}
-
-1.c
-#include "1.h"
-int x;
-static int y;
-
-void one() {
-
-}
-
-static void two() {
-
-}
-
-Makefile
-all:
-    cc -S 1.c -o 1.S
-    cc 1.S -o 1.o
-    cc -S main.c -o main.S
-    cc main.S -o main.o
-    cc main.o 1.o -o main
-
+\code{def.h}{C}
+\code{main.c}{C}
+\code{def.c}{C}
+\code{Makefile}{C}
 \shell{cat main.s}
-\shell{cat 1.s}
-
+\shell{cat def.s}
 \shell{nm main.o}
-\shell{nm 1.o}
+\shell{nm def.o}
 \textbf{T} --- text
 \textbf{U} --- undefined (в другой единице трансляции)
 \textbf{b} --- bss секция
@@ -106,46 +73,20 @@ all:
 С динамическими библиотеками можно связываться явно и неявно
 Явно --- \emph{dlclose, dlopen, dimopen, dlsym, dlvsym}
 Неявно?:
-#include <assert.h>
-#include <pthread.h>
-
-static void* loop(void * arg) {
-
-}
-
-int main() {
-    pthread_t thread;
-
-    pthread_create(&thread, NULL, loop, NULL);
-
-    pthread_join(thread);
-}
-
-\shell{cc main.c}
+\code{example1.c}{C}
+\shell{cc example1.c}
 В чем проблема?
 
-\shell{cc main.c -lpthread}
+\shell{cc example1.c -lpthread}
 \shell{ldd ./a.out}
 Надо указать, что нужно слинковаться
 Тут еще \textbf{ASLR} работает
 
 Еще пример
-main.c
-#include <assert.h>
-#include <dlfcn.h>
-
-int main() {
-    void* handle = dlopen("lib/x86_64-linux-gnu/libpthread.so.0", RTLD_LAZY);
-    assert(handle);
-    void* addr = disym(handle, "pthread_create");
-
-    printf("Addr: %p\n", addr);
-
-    dlclose(handle);
-}
-\shell{cc main.c}
+\code{example2.c}{C}
+\shell{cc example2.c}
 Не работает снова?
-\shell{cc main.c -ldl}
+\shell{cc example2.c -ldl}
 
 \textbf{ASLR} работает, но младшие байты остаются одними и те же
 O_CLOEXEC --- флаг для безопасности
