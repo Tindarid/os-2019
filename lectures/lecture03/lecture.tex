@@ -210,31 +210,11 @@
 \end{itemize}
 
 \section{Атрибуты процесса}
-\begin{figure}[H]
-\begin{minipage}[c]{0.5\linewidth}
-\centering
-\includegraphics[width=\textwidth]{images/kernel-datastructures.png}
-\caption{Structures of Kernel}
-\end{minipage}
-\hspace{0.5cm}
-\begin{minipage}[c]{0.5\linewidth}
-\includegraphics[width=\textwidth]{images/process-table.png}
-\caption{Processes}
-\end{minipage}
-\end{figure}
-\begin{figure}[H]
-\begin{minipage}[c]{0.5\linewidth}
-\centering
-\includegraphics[width=\textwidth]{images/file-table.png}
-\caption{Files}
-\end{minipage}
-\hspace{0.5cm}
-\begin{minipage}[c]{0.5\linewidth}
-\includegraphics[width=\textwidth]{images/vnode-table.png}
-\caption{Vnode and Inode}
-\end{minipage}
-\end{figure}
-\todo{???}
+\centerimage{kernel-datastructures.png}{Structures of Kernel}{0.55}
+\centerimage{process-table.png}{Processes}{0.55}
+\centerimage{file-table.png}{Files}{0.55}
+\centerimage{vnode-table.png}{Vnode and Inode}{0.55}
+\todo{What is this?}
 
 \section{Диски}
 \begin{figure}[H]
@@ -453,24 +433,75 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \section{Системные вызовы}
+\subsection{Действия с файлами}
+\begin{itemize}
+    \item Создание, удаление
+    \item Открытие, закрытие
+    \item Позиционирование
+    \item Чтение, запись
+    \item Обрезание
+    \item Блокировки
+    \item Перемещение по файловой иерархии
+\end{itemize}
+
+\subsection{Общее}
 \centerimage{system-call.png}{Systemcall}{0.35}
 \begin{itemize}
     \item Дескриптор (например: \emph{stdin}, ...) --- интерфейс связи с ресурсом
-    \item Файловый дескриптор
+    \item Файловый дескриптор --- соответственно, связь с файлом
+    \item \textbf{POSIX} --- стандарт, минимальный интерфейс (\textbf{Unix})
+    \item \textbf{POSIX} compatible operating system
+    \item Различные мнемоники для прав доступа (\textbf{S\_IXOTH}, ...)
+    \item Headers for 'function' in \shell{man 2 'function'} or in \textbf{POSIX}
+\end{itemize}
+
+\subsection{Functions}
+\begin{itemize}
+    \item \emph{creat()} --- create new file or rewrite an existing one
+
+          'e' отсутствует, чтобы было быстрее писать
+          \code{create.c}{C}
+    \item \emph{open()}
+
+          Можно открывать файл по умолчанию в двух режимах: 
+          \textbf{O\_APPEND} или \textbf{O\_TRUNC}
+
+          \textbf{O\_EXCL} --- позволяет сделать создание файла атомарным
+    \item \emph{close()} --- закрывает файловый дескриптор
+
+          Важно "не терять" файловые дескрипторы и вовремя их закрывать
+    \item \emph{unlink()} --- удаляет имя из файловой системы и, возможно, файл, к которому оно прикреплено
+    \item \emph{chdir(), getcwd()}
+
+          \textbf{cwd} процесса --- текущая директория, в которой запущен процесс (resolve relative paths)
+    \item \emph{read(), write()}
+
+          Нужно писать цикл со счетчиком, для того чтобы записать точное количество информации
+
+          \todo{iovec}
+    \item \emph{lseek()}
+    \item \emph{chmod(), chown()} --- смена прав файла
+    \item \emph{getdents()}
+
+        Лучше использовать C-шный \emph{readdir()}, т.к. в его сигнатуре интерфейс вида 
+        \textbf{struct linux\_dirent}
+    \item \emph{mkdir(), rmdir()}
+    \item \emph{mount(), umount()}
+    \item \emph{dup(), dup2()} --- лекция про \emph{IPC}
+    \item scattered, gathered IO
+
+          \todo{What is this?}
 \end{itemize}
 \centerimage{file-system-structures.jpg}{Read() and Open()}{1}
-\todo{Доделать}
 
 \section{Пару слов о типах}
 Лучше всего использовать следующие типы данных:
-
-\todo{Why?}
 \begin{itemize}
     \item \textbf{off\_t}
     \item \textbf{size\_t}
     \item \textbf{ssize\_t}
 \end{itemize}
-
+\todo{Why?}
 
 \section{Common pitfalls}
 \begin{itemize}
