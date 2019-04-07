@@ -54,20 +54,6 @@
 \end{minipage}
 \end{figure}
 
-\section{Системные вызовы для работы с процессами}
-\begin{itemize}
-    \item \emph{fork()} --- для того чтобы создать новый процесс
-    \code{fork-example.c}{C}
-    \emph{fork}-бомба --- каждый дочерний процесс делает \emph{fork()} и так далее
-    \item \emph{wait(pid)} --- ждем процесс
-    \item \emph{exit()} --- завершаемся
-    \newpage
-    \item \emph{execve()} --- запустить программу
-    \code{execve-example.c}{C}
-    \item \emph{kill()} --- послать сигнал процессу
-    \item \emph{SIGKILL} --- принудительное завершение другого процесса (\shell{kill}) 
-\end{itemize}
-
 \section{PID и дерево процессов}
 \begin{itemize}
     \item У каждого \emph{PID} есть parentPID (\emph{PPID})
@@ -93,7 +79,21 @@
 \end{enumerate}
 \emph{PID} - переиспользуемая вещь (таблица процессов)
 
-\newpage
+\section{Системные вызовы для работы с процессами}
+\begin{itemize}
+    \item \emph{fork()} --- для того чтобы создать новый процесс
+    \code{fork-example.c}{C}
+    \emph{fork}-бомба --- каждый дочерний процесс делает \emph{fork()} и так далее
+    \item \emph{wait(pid)} --- ждем процесс
+    \item \emph{exit()} --- завершаемся
+    \item \emph{execve()} --- запустить программу
+    \code{execve-example.c}{C}
+    \item \emph{kill()} --- послать сигнал процессу
+    \item \emph{SIGKILL} --- сигнал для принудительного завершения другого процесса 
+
+          \shell{kill -SIGKILL pid} 
+\end{itemize}
+
 \section{Calling convention}
 \shell{man syscall} - как вызываются \emph{syscall}
 
@@ -162,7 +162,7 @@
     \item Дизайн приложения
 \end{itemize}
 \subsection{Interruption}
-\centerimage{process-interruption.png}{Interruption of process}{0.7}
+\centerimage{process-interruption.png}{Interruption of process}{0.8}
 
 \subsection{Состояния процесса}
 \begin{figure}[H]
@@ -180,16 +180,24 @@
     \item sleeping: \textbf{interruptible}
     \item sleeping: \textbf{uninterruptible}
     \item \textbf{zombie}
+    \item \todo{maybe not all}
 \end{itemize}
 \end{minipage}
 \end{figure}
 
+\subsection{Контекст процесса}
+\begin{itemize}
+    \item Память
+    \item Вычислительный контекст --- потоки
+    \item Файловые дескрипторы (открытые файлы и сокеты)
+    \item \textbf{IPC}
+    \item \textbf{Credentials} (\shell{man 7 credentials})
+\end{itemize}
+\todo{Подробнее}
+
 \subsection{Переключение контекста}
 Шедулер ОС раскидывает процессы и создает иллюзию одновременного выполнения
 \centerimage{context-switch.png}{Иллюзия многозадачности}{0.5}
-
-\section{Контекст процесса}
-\todo{}
 
 \section{Системные процессы}
 \todo{What is this?}
