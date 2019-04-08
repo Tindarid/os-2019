@@ -29,15 +29,13 @@
 
     \item У каждого подхода свои плюсы и минусы
 
-    \item \textbf{cr2} --- контрольный регистр, считывается функцией \emph{do\_page\_fault} 
+    \item \textbf{CR2} --- контрольный регистр, считывается функцией \emph{do\_page\_fault} 
           (которая занимается обработкой \textbf{page fault})
 \end{itemize}
 
 \newpage
 \section{Память}
-Хочется чтобы каждый процесс был защищен от любого другого
-
-Проблемы памяти:
+\textbf{Проблемы памяти:}
 \begin{enumerate}
     \item Памяти мало, она дорогая
     \item Памяти мало, программ много, как договориться?
@@ -46,10 +44,12 @@
 
           Может тогда выгружать неиспользуемую память на диск?
 
-          Может еще переиспользовать память? (например, сегмент \textbf{text} у \textbf{Chrome})
+          Может еще переиспользовать память? (например, сегмент \textbf{text} у \textbf{chrome})
     \item Памяти мало, программ много, как защититься?
 
-          Неплохо было бы выложить в read-only какую-то память 
+          Хочется чтобы каждый процесс был защищен от любого другого
+
+          Неплохо было бы выложить в \emph{read-only} какую-то память 
           (сегмент \textbf{text} --- \emph{const}-переменные)
 
           \code{stackoverflow.cpp}{C++}
@@ -60,22 +60,97 @@
 
           Хотим чтобы память ядра была недоступна пользователям
 \end{enumerate}
-Как можно это все сделать?
+\begin{center}\textbf{Как можно это все сделать?}\end{center}
 
 \newpage
 \section{Подходы к организации памяти}
+\subsection{Досегментная организация}
+Попробуем изменять адреса в программе перед запуском
+\begin{itemize}
+    \item Выделяем необходимое количество памяти
+    \item Заменяем все адреса с учетом выделенной памяти
+    \item \textbf{Relocations} --- механизм \todo{?}
+    \item Проще говоря --- патчинг (но не всех страниц)
+\end{itemize}
+Проблемы:
+\begin{itemize}
+    \item А что, если нужно переместить программу в памяти?
+    \item А что, если не найдем подходящего куска памяти?
+    \item Нет защиты
+\end{itemize}
+
+\subsection{Сегментная организация}
+Введем косвенность:
+\begin{figure}[H]
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\begin{itemize}
+    \item Программы работают с виртуальными адресами
+    \item Виртуальный адрес = смещение относительно сегмента
+    \item Сегмент = база + размер
+    \item Физический адрес = база сегмента + виртуальный адрес
+    \item Перемещение памяти программы: изменение базы сегмента
+    \item Переключение выполняемой программы: заменить поток выполнения + заменить сегмент
+    \item Память per process
+    \item \textbf{Relocations} все еще нужны
+\end{itemize}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/memory-segment.jpg}
+\caption{Memory Segment}
+\end{minipage}
+\end{figure}
+\begin{figure}[H]
+\begin{minipage}[c]{0.6\linewidth}
+\centering
+\begin{itemize}
+    \item Преобразование виртуального адреса в физический выполняет 
+          \textbf{MMU} (Memory Managment Unit)
+    \item \textbf{MMU} управляется из привилегированного режима
+\end{itemize}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/segment-translation.png}
+\caption{Segment translation}
+\end{minipage}
+\end{figure}
+\textbf{Плюсы:}
+\begin{itemize}
+    \item Быстро работает --- трансляция виртуального адреса в физический --- сложение, простое железо
+          \centerimage{segmentation-hardware.jpg}{Segmentation Hardware}{0.4}
+\end{itemize}
+\textbf{Минусы:}
+\begin{itemize}
+    \item Сегмент имеет ограниченный размер - что если понадобилось больше памяти?
+    \item Невозможность переиспользования памяти
+    \item Несколько сегментов. x86 case study: \textbf{ds, ss, cs, general purpose}
+          \begin{itemize}
+              \item Добавляем права на сегменты
+              \item Накладывает ограничения на модель работы
+              \item Можно шарить память: сегменты кода или данных для чтения 
+                    разных процессов одного исполняемого файла
+                    имеют одинаковую базу и размер
+              \item Усложнение логики \textbf{MMU}
+          \end{itemize}
+    \item Фрагментация: внешняя и внутренняя --- основная проблема
+\end{itemize}
+
+\subsection{Страничная организация}
 \todo{}
-\subsection{Досегментная организация(№1)}
-\subsection{Сегментная организация(№2)}
-\subsection{Страничная организация(№3)}
-\subsection{Страничная организация в x86(Реальность)}
+\subsection{Страничная организация в x86}
+Чуть больше про реальность
+\todo{}
 
 \section{MMU}
 \todo{}
 
 \section{Переключение контекста}
 \begin{itemize}
-    \item Восстановить память процесса (регистр \textbf{cr3})
+    \item Восстановить память процесса (регистр \textbf{CR3})
     \item Восстановить поток выполнения (значения регистров)
     \item Как защитить память ядра? --- привилегиями
     \item \todo{cr3 definition}
