@@ -72,7 +72,7 @@
     \item \textbf{Relocations} --- механизм \todo{?}
     \item Проще говоря --- патчинг (но не всех страниц)
 \end{itemize}
-Проблемы:
+\textbf{Проблемы:}
 \begin{itemize}
     \item А что, если нужно переместить программу в памяти?
     \item А что, если не найдем подходящего куска памяти?
@@ -102,6 +102,7 @@
 \caption{Memory Segment}
 \end{minipage}
 \end{figure}
+
 \begin{figure}[H]
 \begin{minipage}[c]{0.6\linewidth}
 \centering
@@ -140,10 +141,69 @@
 \end{itemize}
 
 \subsection{Страничная организация}
-\todo{}
+\textbf{Как бороться с внешней фрагментацией?}
+\begin{itemize}
+    \item Нарежем все на кусочки --- страницы (в большинстве случаев ---  4KB)
+    \item Размер страницы --- tradeoff внутренняя фрагментация и overhead
+    \item Нужно уметь отображать виртуальный адрес страницы на физический --- \textbf{MMU}
+    \item Ядро должно перехватывать ошибки обращений к страницам
+
+          (Examples: write to read only, execute non executable)
+    \item Ядро должно уметь изменять отображение виртуальных страниц в физические
+\end{itemize}
+\centerimage{paging-hardware.jpg}{Paging hardware}{0.8}
+\centerimage{paging-addressing.png}{Paging addressing}{0.5}
+
+\textbf{Тогда:}
+\begin{itemize}
+    \item Нет внешней фрагментации
+    \item Внутренняя фрагментация --- half of page size
+    \item Упрощается выделение памяти --- нужно найти не линейный кусок, а можно страницами
+    \item Можно выгружать страницы памяти на диск
+    \item Права можно задавать для каждой страницы отдельно
+    \item Виртуальный адрес = номер страницы + смещение в странице
+    \item Трансляция виртуального адреса --- трансляция адреса страницы + смещение в странице
+    \item Процессу нужна таблица страниц
+    \item У виртуального и физического адреса будут одинаковые --- \textbf{alignment}, \textbf{offset}
+    \item Нам нужно хранить маппинг только для старших 20 бит.
+\end{itemize}
+
 \subsection{Страничная организация в x86}
-Чуть больше про реальность
-\todo{}
+\textbf{Чуть больше про реальность}
+\begin{itemize}
+    \item Таблица страниц - много места. Нужна иерархия.
+    \item Размер иерархии - tradeoff между overhead на размер служебной информации и скоростью трансляции
+    \item Иерархия:
+          \begin{itemize}
+              \item page directory = 1024 page directory entry (\textbf{PDE})
+                    \begin{itemize}
+                        \item \textbf{PDE} содержит адрес page table (\textbf{PT})
+                    \end{itemize}
+              \item \textbf{PT} --- 1024 page table entry (\textbf{PTE})
+                    \begin{itemize}
+                        \item \textbf{PTE} содержит физический адрес страницы
+                        \item \textbf{PT} --- 4 MB of Virtual Memory
+                    \end{itemize}
+          \end{itemize}
+    \item \textbf{CR3} --- контрольный регистр, хранящий физический адрес page directory
+    \item В x86 одновременно есть и сегментация организация --- база в 0, размер на всю память
+    \item x86-64 --- 4 уровня косвенности
+    \item Время доступа --- дороже, в умных книжах пишут, что виртуальная память замедлила программы на 10---30\%
+\end{itemize}
+
+\begin{figure}[H]
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/memory-x86-page-translation.png}
+\caption{Page translation (x86)}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/memory-pte.png}
+\caption{Memory PTE}
+\end{minipage}
+\end{figure}
 
 \section{MMU}
 \todo{}
@@ -153,9 +213,13 @@
     \item Восстановить память процесса (регистр \textbf{CR3})
     \item Восстановить поток выполнения (значения регистров)
     \item Как защитить память ядра? --- привилегиями
-    \item \todo{cr3 definition}
 \end{itemize}
-\todo{no image for this}
+
+\section{Page Fault}
+\todo{presentation}
+
+\section{Page Reclaiming}
+\todo{presentation}
 
 \section{Примеры использования}
 \subsection{Подкачка по требованию}
@@ -308,12 +372,6 @@ Address space layout randomization
 Почему значения почти одинаковые при каждом запуске?
 
 Они рандомизируются (еще один рубеж защиты)
-
-\section{Page Reclaiming}
-\todo{presentation}
-
-\section{Page Fault}
-\todo{presentation}
 
 \section{Литература}
 \begin{itemize}
