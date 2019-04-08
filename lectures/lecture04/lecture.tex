@@ -151,8 +151,20 @@
           (Examples: write to read only, execute non executable)
     \item Ядро должно уметь изменять отображение виртуальных страниц в физические
 \end{itemize}
-\centerimage{paging-hardware.jpg}{Paging hardware}{0.8}
-\centerimage{paging-addressing.png}{Paging addressing}{0.5}
+
+\begin{figure}[H]
+\begin{minipage}[c]{0.6\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/paging-hardware.jpg}
+\caption{Paging hardware}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\includegraphics[width=\textwidth]{images/paging-addressing.png}
+\caption{Paging addressing}
+\end{minipage}
+\end{figure}
 
 \textbf{Тогда:}
 \begin{itemize}
@@ -257,7 +269,7 @@
     \item Разделяемая память
 \end{itemize}
 
-\section{Выделение памяти}
+\section{Запрос памяти у ядра}
 \subsection{Пример №1}
 \code{mem1.c}{C}
 \shell{cc mem1.c -o mem1}
