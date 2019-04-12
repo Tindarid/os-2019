@@ -4,4 +4,107 @@
 
 \chapter{IPC}
 
+\section{Литература}
+\begin{itemize}
+    \item The Linux Programming Interface (практически все описано)
+    \item \textcolor{blue}{
+        \href{http://man7.org/conf/lca2013/IPC_Overview-LCA-2013-printable.pdf}{Ссылка на презентацию от автора книги}
+    }
+\end{itemize}
+
+\section{Общее}
+\begin{itemize}
+    \item Есть много разных \textbf{IPC} --- Inter Process Communication
+    \item Examples: \textbf{pipes in shell}, \textbf{sockets}, \textbf{System V shared memory},
+          \textbf{signals}, \textbf{mutexes}
+    \item \textbf{IPC} дает какой-то способ взаимодействия
+    \item \textbf{IPC} нужно выбирать с умом, зная требования к взаимодействию
+    \item Демоны (\textbf{daemons}) --- служебные процессы, которые долго живут 
+          и не перезагружаются (обслуживают что-то)
+\end{itemize}
+\todo{Две картинки-схемы + классификация из презентации}
+
+\section{Сигналы}
+\subsection{Общее}
+\begin{itemize}
+    \item Сигналы характеризуются числом
+    \item \shell{kill -SIGSTOP [number of proccess]} --- послать сигнал процессу
+    \item Сигналы выставляются процессу
+\end{itemize}
+
+Примеры:
+\begin{itemize}
+    \item \textbf{SIGSEGV} --- segmentation violation
+    \item \textbf{SIGBUS} --- генерируется в связи с проблемами маппинга виртуальной памяти на диск \todo{Is it true?}
+    \item \textbf{SIGINT} --- interrupt (Ctrl + C)
+    \item \textbf{SIGILL} --- illegal instruction
+    \item \textbf{SIGUSR1, SIGUSR2} --- отдаются на использование программисту
+    \item \textbf{SIGSTOP} --- процесс перестает шедулироваться (грубо говоря замораживается)
+    \item \textbf{SIGCONT} --- процесс начинает шедулироваться \todo{Is it true?}
+    \item \textbf{SIGTERM} --- попросить процесс завершиться
+\end{itemize}
+\textbf{SIGKILL} и \textbf{SIGSTOP} --- нельзя ни перехватить, ни игнорировать
+
+\subsection{Пример №1}
+Что произойдет?
+\code{signal1.cpp}{C++}
+У сигнала может быть три разных поведения: игнорирование, дефолтное, свой обработчик\\
+
+\subsection{Пример №2}
+Как послать сигнал самому себе?
+\code{signal2.cpp}{C++}
+
+\subsection{Пример №3}
+Пишем свой обработчик сигнала
+\code{signal3.cpp}{C++}
+Нажимаем Ctrl + C, ловим сигнал
+
+\subsection{Пример №4}
+Сигнал обрабатывается по границе выполняемой инструкции
+\code{signal4.cpp}{C++}
+Генерация сигнала прерывает функцию \emph{sleep()}
+
+\subsection{Пример №5}
+\code{signal5.cpp}{C++}
+Мы не имеем права звать из обработчика сигналов нереентерабельные функции (\emph{malloc()}, \emph{printf()}, \dots)
+
+\subsection{Пример №6}
+\code{signal6.cpp}{C++}
+\textbf{sig\_atomic\_t} --- define для \todo{?}
+
+\subsection{Пример №7}
+\code{signal7.cpp}{C++}
+Если сигнал возникнет в обработчике сигнала, то он обработается
+
+\subsection{Пример №8}
+\todo{Пример c ассемблером}
+
+\subsection{Дополнительно}
+\begin{itemize}
+    \item Можно взять обработчик сигнала для \textbf{SIGIGN}, и поставить его также на обработку какого-нибудь другого
+
+    \item У интерфейса сигналов много проблем, поэтому появился \emph{advanced} интерфейс\\
+          \shell{man sigaction}\\
+          Можно доставать из него информацию о проблеме (например, для \textbf{SIGSEGV} --- адрес памяти, которая защищена)
+
+    \item \todo{Гадание по \textbf{CR2} как в Матрице}
+
+    \item Если сигнал возник во время системного вызова, то он возвращается с кодом ошибки \textbf{EINTR}\\
+          \textbf{SA\_RESTART} --- чтобы продолжить
+\end{itemize}
+
+\section{Pipes}
+\begin{itemize}
+    \item Примитив \textbf{IPC}
+    \item Данные на одном конце получаются ровно в том порядке, в котором они передаются с другого конца
+    \item \emph{pipe()} --- системный вызов для создания\\
+          \shell{man pipe}
+    \item \emph{dup} --- создание копии файлового дескриптора\\
+          \shell{man dup}
+    \item \textbf{pipe} == byte stream buffer in kernel
+\end{itemize}
+
+\section{FIFO}
+Именованный \textbf{pipe} --- \shell{mkfifo}
+
 \end{document}
