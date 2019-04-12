@@ -13,17 +13,17 @@
 \emph{stdout} --- буферизированный, \emph{stderr} --- нет
 Буферизация --- в данном случае, исключительно свойство библиотеки \textbf{libc} (системные вызовы не такие)
 
-\code{stdout1.cpp}{C++}
+\code{pipe1.cpp}{C++}
 Программа пишет, но ничего не выводится
 
-\code{stdout2.cpp}{C++}
+\code{pipe2.cpp}{C++}
 \textbf{std::endl} flushs output
 
-\code{stdout3.cpp}{C++}
+\code{pipe3.cpp}{C++}
 Не буферизированный
 
 \subsection{Redirect}
-\code{stdout4.cpp}{C++}
+\code{pipe4.cpp}{C++}
 Выводы склеены
 Редиректы позволяют рассортировать вывод (\shell{./a.out 2>err})
 \textbf{Shell} обрабатывает перенаправления последовательно
