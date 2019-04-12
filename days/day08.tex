@@ -32,11 +32,7 @@ The Linux Programming Interface (практически все описано)
 \shell{kill -SIGSTOP [number of proccess]}
 Сигналы выставляются процессу
 
-#include <assert.h>
-
-int main(int argc, const char *argv[]) {
-    assert(0);
-}
+\code{signal1.cpp}{C++}
 Что произошло?
 
 У сигнала может быть три разных поведения: игнорирование, дефолтное, свой обработчик
@@ -44,137 +40,35 @@ int main(int argc, const char *argv[]) {
 \textbf{SIGTERM} --- попросить процесс завершиться
 
 Как послать сигнал самому себе?
-#include <signal.h>
-
-int main(int argc, const char *argv[]) {
-    raise(SIGNAL);
-}
+\code{signal2.cpp}{C++}
 
 Пишем свой обработчик сигнала
-#include <signal.h>
-#include <unistd.h>
-
-static void sigint_handler(int signo) {
-    printf("SIGINT caught\n");
-}
-
-int main() {
-    signal(SIGINT, sigint_handler);
-
-    for(;;) {
-        sleep(1);
-    }
-}
+\code{signal3.cpp}{C++}
 Нажимаем Ctrl + C, ловим сигнал
 
-#include <signal.h>
-#include <unistd.h>
-
-static void sigint_handler(int signo) {
-    printf("SIGINT caught\n");
-
-}
-
-int main() {
-    signal(SIGINT, sigint_handler);
-
-    for(;;) {
-        sleep(10000);
-        printf("hm\n");
-    }
-}
+\code{signal4.cpp}{C++}
 Генерация сигнала прерывает функцию \emph{sleep()}
 Сигнал обрабатывается по границе выполняемой инструкции
 
-#include <signal.h>
-#include <unistd.h>
-
-static unsigned counter = 0;
-
-static void sigint_handler(int signo) {
-    counter += 100500;
-    printf("SIGINT caught\n");
-
-}
-
-static void non_reentrant_func() {
-    for (;;) {
-        const unsigned prev_counter = counter;
-        ++counter;
-        assert(prev_counter + 1 == counter);
-    }
-}
-
-int main() {
-    signal(SIGINT, sigint_handler);
-    non_reentrant_func();
-}
+\code{signal5.cpp}{C++}
 Мы не имеем права звать из обработчика сигналов нереентерабельные функции (\emph{malloc()}, \emph{printf()}, \dots)
 
-#include <signal.h>
-#include <unistd.h>
+\code{signal6.cpp}{C++}
+sig_atomic_t --- define для \todo{?}
 
-static sig_atomic_t sigint_flag;
-
-static void sigint_handler(int signo) {
-    sigint_flag = 1;
-}
-
-int main() {
-    signal(SIGINT, sigint_handler);
-
-    for(;;) {
-        if (sigint_flag) {
-            printf("SIGINT caught\n");
-            sigint_flag = 0;
-        }
-        sleep(1);
-    }
-}
-sig_atomic_t --- define для ?
-
-
-#include <signal.h>
-#include <unistd.h>
-
-static sig_atomic_t sigint_flag;
-
-static void sigint_handler(int signo) {
-    if (signo == SIGINT) {
-        sigint_flag = 1;
-        printf("SIGINT caught\n");
-        raise(SIGUSR1);
-        printf("SIGUSR1 sent\n");
-    } else {
-        assert(signo == SIGUSR1);
-        printf("SIGUSR1 caught\n");
-    }
-}
-
-int main() {
-    signal(SIGINT, sig_handler);
-    signal(SIGUSR1, sig_handler);
-
-    for(;;) {
-        if (sigint_flag) {
-            printf("SIGINT caught\n");
-            sigint_flag = 0;
-        }
-        sleep(1);
-    }
-}
+\code{signal7.cpp}{C++}
 Если сигнал возникнет в обработчике сигнала, то он обработается
 
 Можно взять обработчик сигнала для \textbf{SIGIGN}, и поставить его также на обработку какого-нибудь другого
 
-У интерфейса сигналов много проблем, поэтому появился advanced интерфейс 
+У интерфейса сигналов много проблем, поэтому появился \emph{advanced} интерфейс 
 \shell{man sigaction}
 Можно доставать из него информацию о проблеме (например, для \textbf{SIGSEGV} --- адрес памяти, которая защищена)
 
 Гадание по \textbf{cr2} как в Матрице
 
 
-(Очень сложный пример c ассемблером)
+\todo{Пример c ассемблером}
 
 
 Если сигнал возник во время системного вызова, то он возвращается с кодом ошибки \textbf{EINTR}
