@@ -413,24 +413,9 @@ smart (\shell{smartctl}) --- оценка диска на практике
 \end{figure}
 
 \section{Операции с файлами}
-\begin{figure}[H]
-\begin{minipage}[c]{0.25\linewidth}
-\centering
-\includegraphics[width=\textwidth]{images/layered.jpg}
-\caption{Layered}
-\end{minipage}
-\hspace{0.5cm}
-\begin{minipage}[c]{0.75\linewidth}
-\centering
-\includegraphics[scale=0.38]{images/dup.png}
-\caption{Duplication}
-~
-
-~
-\includegraphics[scale=0.37]{images/file-sharing.png}
-\caption{Sharing}
-\end{minipage}
-\end{figure}
+\centerimage{layered.jpg}{Layered}{1.5}
+\centerimage{dup.png}{File duplication}{0.5}
+\centerimage{file-sharing.png}{File sharing}{0.5}
 
 \section{Системные вызовы}
 \subsection{Действия с файлами}
@@ -477,8 +462,7 @@ smart (\shell{smartctl}) --- оценка диска на практике
     \item \emph{read(), write()}
 
           Нужно писать цикл со счетчиком, для того чтобы записать точное количество информации
-
-          \todo{iovec}
+\centerimage{file-system-structures.jpg}{Read() and Open()}{1}
     \item \emph{lseek()}
     \item \emph{chmod(), chown()} --- смена прав файла
     \item \emph{getdents()}
@@ -492,7 +476,6 @@ smart (\shell{smartctl}) --- оценка диска на практике
 
           \todo{What is this?}
 \end{itemize}
-\centerimage{file-system-structures.jpg}{Read() and Open()}{1}
 
 \section{Пару слов о типах}
 Лучше всего использовать следующие типы данных:
