@@ -218,7 +218,20 @@
 \end{figure}
 
 \section{MMU}
-\todo{}
+\begin{itemize}
+    \item Трансляция выполняется аппаратно с помощью MMU
+    \item Несколько обращений к памяти
+    \item Проверка прав доступа
+    \item Генерация прерываний при ошибках
+    \item Медленно --- \textbf{TLB} (Translation Lookaside Buffer)
+          \begin{itemize}
+            \item Очень быстрый => очень дорогой => очень маленький
+            \item Виртуальный адрес в физический
+            \item Права доступа
+            \item Инвалидация --- следит ядро
+            \item \todo{paging-hardware?}
+          \end{itemize}
+\end{itemize}
 
 \section{Переключение контекста}
 \begin{itemize}
@@ -228,10 +241,27 @@
 \end{itemize}
 
 \section{Page Fault}
-\todo{presentation}
+\begin{itemize}
+    \item Проверка \textbf{PD}, \textbf{PT}, \textbf{PTE}, прав доступа
+    \item \textbf{MMU} генерирует прерывание --- адрес и тип доступа
+    \item \textbf{ISR} в ядре
+\end{itemize}
+\todo{Картинка?}
 
 \section{Page Reclaiming}
-\todo{presentation}
+\begin{itemize}
+    \item Идеальный --- нужно освободить ту страницу, которая дольше всего не потребуется
+    \item Belady Anomaly
+          \begin{itemize}
+            \item \textbf{FIFO}
+            \item Reference string: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5
+            \item 3 phys pages: 9 page faults
+            \item 4 phys pages: 10 page faults
+          \end{itemize}
+    \item \textbf{LRU}
+    \item Clock algorithm - aproximiate \textbf{LRU}
+\end{itemize}
+\todo{Картинка?}
 
 \section{Примеры использования}
 \subsection{Подкачка по требованию}
