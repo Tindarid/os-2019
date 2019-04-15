@@ -4,14 +4,6 @@
 
 \chapter{IPC}
 
-\section{Литература}
-\begin{itemize}
-    \item The Linux Programming Interface (практически все описано)
-    \item \textcolor{blue}{
-        \href{http://man7.org/conf/lca2013/IPC_Overview-LCA-2013-printable.pdf}{Ссылка на презентацию от автора книги}
-    }
-\end{itemize}
-
 \section{Общее}
 \begin{itemize}
     \item Есть много разных \textbf{IPC} --- Inter Process Communication
@@ -24,6 +16,7 @@
 \end{itemize}
 \todo{Две картинки-схемы + классификация из презентации}
 
+\newpage
 \section{Сигналы}
 \subsection{Общее}
 \begin{itemize}
@@ -45,6 +38,7 @@
 \end{itemize}
 \textbf{SIGKILL} и \textbf{SIGSTOP} --- нельзя ни перехватить, ни игнорировать
 
+\newpage
 \subsection{Пример №1}
 Что произойдет?
 \code{signal1.cpp}{C++}
@@ -93,6 +87,7 @@
           \textbf{SA\_RESTART} --- чтобы продолжить
 \end{itemize}
 
+\newpage
 \section{Pipes}
 \begin{itemize}
     \item Примитив \textbf{IPC}
@@ -102,9 +97,65 @@
     \item \emph{dup} --- создание копии файлового дескриптора\\
           \shell{man dup}
     \item \textbf{pipe} == byte stream buffer in kernel
+    \item Гарантия атомарности упирается в константу (размер буфера)
+    \item Механизм \textbf{IPC} не дает гарантий границ сообщений
+    \item Если никто не пишет в \textbf{pipe}, то тот, кто читает из него --- блокируется (поток исполнения)
+
+    \item Есть неблокирующие файловые дескрипторы (вместо блокировки возвращают код ошибки)
+    \item \textbf{Globbing} --- подмножество регулярок (по маске получает что-то из файловой системы)
 \end{itemize}
+
+\subsection{Buffer}
+\begin{itemize}
+    \item \emph{stdout} --- буферизированный, \emph{stderr} --- нет
+    \item Буферизация --- в данном случае, исключительно свойство библиотеки \textbf{libc} (системные вызовы не такие)
+\end{itemize}
+
+\subsubsection{Пример №1}
+\code{pipe1.cpp}{C++}
+Программа пишет, но ничего не выводится
+
+\subsubsection{Пример №2}
+\code{pipe2.cpp}{C++}
+\textbf{std::endl} flushs output
+
+\subsubsection{Пример №3}
+\code{pipe3.cpp}{C++}
+Не буферизированный
+
+\subsection{Redirect}
+\begin{itemize}
+    \item Редиректы позволяют рассортировать вывод (\shell{./a.out 2>err})
+    \item \textbf{Shell} обрабатывает перенаправления последовательно
+        \begin{itemize}
+                \item \shell{./a.out 1>out 2>\&1} (В конце перенаправление обоих в файл)
+                \item \shell{./a.out 2>\&1 1>out} (Сначала и первый, и второй указывают на терминал, позже первый указывает на файл, в конце \emph{stderr} привязан к терминалу, а \emph{stdout} к файлу)
+        \end{itemize}
+    \item Еще бывают перенаправления ввода и вывода (\shell{wc -l < /etc/passwd})
+    \item Вся информация --- \shell{man sh}
+    \item \shell{man 3 open}
+    \item \shell{cat /etc/passwd | tee /tmp/out} --- одновременно выводим на экран и в файл
+\end{itemize}
+
+\subsubsection{Пример}
+\code{pipe4.cpp}{C++}
+Выводы склеены
 
 \section{FIFO}
 Именованный \textbf{pipe} --- \shell{mkfifo}
+
+\section{SystemV}
+\todo{}
+
+\section{Sockets}
+\todo{}
+
+\section{Литература}
+\begin{itemize}
+    \item The Linux Programming Interface (практически все описано)
+    \item \textcolor{blue}{
+        \href{http://man7.org/conf/lca2013/IPC_Overview-LCA-2013-printable.pdf}{Ссылка на презентацию от автора книги}
+    }
+\end{itemize}
 
 \end{document}
