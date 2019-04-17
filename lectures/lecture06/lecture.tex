@@ -144,12 +144,49 @@
 \section{FIFO}
 Именованный \textbf{pipe} --- \shell{mkfifo}
 
+\newpage
 \section{SystemV}
-\todo{}
+\todo{More}
+\begin{itemize}
+    \item Гарантирует то, что если вы записали сообщение, то его получат в том же размере
+    \item \textbf{Semaphores} --- like mutexes
+    \item \textbf{IPC Keys} --- just ints (\emph{ftok()})
+    \item \emph{msgget()}
+    \item Проблема семафоров --- слишком богатый интерфейс (можно сделать массив из семафоров, работать с ним параллельно)
+    \item Симметричны в отношении к очередям \todo{?}
+\end{itemize}
+\code{systemv.cpp}{C++}
 
+\newpage
 \section{Sockets}
-\todo{}
+\todo{More}
+\begin{itemize}
+    \item \shell{man 2 socket}
+    \item \shell{man 7 ip}
+    \item \shell{man 2 connect}
+    \item Есть разные протоколы (транспортные, сетевые и т.д.)
+\end{itemize}
+Уровни (\todo{модели оси?}):
 
+\textbf{Userspace:}
+\begin{itemize}
+    \item \textbf{L7} --- APPLICATION (\textbf{HTTP, MTproto, QUIC}, etc)
+    \item \textbf{L6, L5} --- SESSION, REPRESENTATION
+
+          Чистая абстракция, способ поделить протокол на части, чтобы его проще было понимать
+\end{itemize}
+
+\textbf{Kernelspace:}
+\begin{itemize}
+    \item \textbf{L4} --- TRANSPORT (\textbf{TCP, UDP, SCTP}, etc)
+    \item \textbf{L3} --- NETWORK (\textbf{IPv4, IPv6, IPX})
+    \item \textbf{L2} --- \todo{?} (\textbf{802.3, 802.11})
+    \item \textbf{L1} --- PHYSICAL
+\end{itemize}
+
+\textbf{QUIC} --- новомодный транспортный протокол. Находится на последнем уровне для обратной совместимости.
+
+\newpage
 \section{Литература}
 \begin{itemize}
     \item The Linux Programming Interface (практически все описано)
