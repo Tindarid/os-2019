@@ -1,0 +1,187 @@
+Про сети
+
+\section{Литература}
+Книги хорошие, старые
+CCNA --- примерно полугодовой курс. После сдачи сможете построить свою сеть
+
+\section{Классификация (start)}
+\begin{itemize} \item \textbf{Packet switched networks}\\ Эта концепция прижилась
+    \item \textbf{Circut switched networks} --- коммутация каналлов (телефоны)\\
+          Никто не может вмешаться в канал и повлиять на передачу\\
+          Требует больше ресурсов.
+\end{itemize}
+
+\section{L2}
+\subsection{Frame}
+Картинка ethernet\_frame.jpg
+\textbf{SFD} --- разграничитель
+\textbf{Destination MAC} -- адрес получателя (идет первым, чтобы сетевая карта не делала лишнюю работу)
+\textbf{Source MAC} --- адрес отправителя
+\textbf{Type} --- какой протокол упакован внутри
+
+\subsection{MAC адрес}
+\begin{itemize}
+    \item OUI\\
+          Vendor assigned\\
+          (все пространство MAC-адресов закреплено за какими-то производителями)
+    \item \emph{Unicast} --- least signigicat bit of the first octet is 0\\
+          Передача одному
+    \item \emph{Multicast} --- least significant bit of the first octet is 1\\
+          Передача многим
+    \item \emph{Broadcast} --- ff:ff:ff:ff:ff:ff
+          Передача всем \end{itemize} 
+\subsection{Broadcast domain}
+\textbf{VLAN} (trunk, access) --- виртуальная локальная сеть (используется поле \textbf{type})
+
+\subsection{Devices}
+\begin{itemize}
+    \item \textbf{Hub}
+        \begin{itemize}
+            \item Дублирует электрический сигнал
+            \item "Общая шина"
+            \item Коллизии при одновременной отправке
+            \item Алгоритм \emph{exponential backoff} --- каждый засыпаем на произвольное количество времени при коллизии
+        \end{itemize}
+    \item \textbf{Switch}
+        \begin{itemize}
+            \item Maps MAC to port (не биективно)
+            \item Active learning (изучение)
+            \item Flooding (лавинная рассылка)
+            \item FIB --- база
+        \end{itemize}
+    \item \textbf{Bridge}
+\end{itemize}
+
+\subsection{Мысленный эксперимент}
+\begin{enumerate}
+    \item Чтобы кто-то отправил кому-то что-то, он должен знать его MAC-адрес (допустим, знает)
+    \item Машина отправляет фрейм по MAC-адресу получателя
+    \item Его получает коммутатор (L2 устройство), в нем адрес отправителя и адрес получателя
+    \item Добавляет адрес отправителя в базу, если не сохранен порт получателя, начинается лавинная рассылка
+    \item Получатель примет фрейм с теми же адресами отправителя и получателя
+    \item Получатель отправляет ответ с реверснутыми адресами
+    \item У коммутатора есть все данные и он конкретно отправляет фрейм отправителю первоначального фрейма. Также запоминает порт для получателя.
+\end{enumerate}
+
+\section{L3}
+\textbf{L3} --- нужен чтобы передавать данные между сетями
+
+\subsection{IP адрес}
+\begin{itemize}
+    \item \emph{Unicast}
+    \item \emph{Multicast} --- 224.0.0/24
+    \item \emph{Broadcast} --- 255.255.255.255
+\end{itemize}
+
+\subsection{CIDR}
+Сначала были классы
+\begin{itemize}
+    \item A-сеть --- 1 старший байт
+    \item B-сеть --- 2 старших байта
+    \item C-сеть --- 3 старших байта
+\end{itemize}
+Потом классов не стало\\
+\textbf{CIDR} (Classless InterDomain Routing) --- /8, /16, /24\\
+Весь интернет: 0.0.0.0/32\\
+Половины интернета: 0.0.0.0/1, 128.0.0.0/1\\
+Конкретный адрес: *.*.*.*/32
+
+\subsection{Кто заведует адресами?}
+\begin{itemize}
+    \item \textbf{IANA} --- main boss
+    \item \textbf{RIR} --- организации на разных континентах
+    \item \textbf{LIR} --- локальные организации
+    \item \shell{whois}
+    \item \textbf{AS} --- автономная система (инфраструктура, находящаяся по контролем)
+\end{itemize}
+
+\subsection{Mapping}
+\textbf{ARP} (Address Resolution Protocol) --- кто имеет L3-адрес такой-то, скажи мне свой L2-адрес\\
+\textbf{RARP} --- \todo{?}
+
+\subsection{Routing}
+К одному и тому же месту могут быть несколько маршрутов\\
+\shell{netstat -rn} --- таблица маршрутизации\\
+\shell{ip r}
+\todo{
+- Статическая
+- Динамическая
+* Distance vector
+  - Bellman-Ford
+* Link state
+  - Dijkstra
+}
+\todo{
+- IGP
+  * RIP
+  * OSPF
+- EGP --- не работал
+  * BGP --- работает
+    - Full view
+- stub --- только один маршрут наверх
+- assymetric --- маршрут от отправителя к получателю необязательно совпадает с обратным маршрутом
+- anycast --- одни и те же префиксы (в итоге получаем отказоустойчивость)
+- ECMP (Equal Cost MultiParse) --- 
+}
+\todo{
+ * RFC1918
+}
+\todo{
+ * DHCP --- динамическое получение IP-адреса
+}
+
+\subsection{Devices}
+\textbf{Router}
+
+\subsection{Мысленный эксперимент}
+\todo{Картинка с пояснениями}
+
+\section{L4}
+\subsection{Ports}
+\begin{itemize}
+    \item Priveleged
+    \item Well known (/etc/services)
+    \item Ephemeral
+\end{itemize}
+
+\subsection{Protocols}
+\textbf{TCP} -- reliable, connection oriented
+\begin{itemize}
+    \item Header
+    \item Handshaking
+    \item Retransmits
+    \item Congestion
+    \item Timers
+    \item HOL
+    \item Active open / Passive open
+    \item \todo{tcp-states.gif}
+\end{itemize}
+\textbf{UDP} --- unreliable, message oriented
+
+\subsection{?}
+\textbf{NAT} --- 
+
+\todo{
+  * Мысленный эксперимент
+    - telnet vk.com 80
+}
+
+\section{L7}
+\todo{}
+  * DNS
+    * Root servers
+    * NS, A, PTR, MX
+  * QUIC
+  * HTTP
+  * HTTP2
+  * HTTP3
+  * Мысленный эксперимент:
+    - Открытие в браузере vk.com
+
+\section{Misc}
+\todo{}
+  * Firewall
+  * Application Firewall
+  * DPI
+  * NOC
+  * tcpdump / wireshark
