@@ -14,7 +14,59 @@
     \item Демоны (\textbf{daemons}) --- служебные процессы, которые долго живут 
           и не перезагружаются (обслуживают что-то)
 \end{itemize}
-\todo{Две картинки-схемы + классификация из презентации}
+
+\section{Классификация}
+\subsection{Synchronization}
+\begin{itemize}
+    \item Eventfd
+    \item Futexes
+    \item Record locks
+    \item File locks
+    \item Mutexes
+    \item Condition variables
+    \item Barriers
+    \item Read-write locks
+\end{itemize}
+\todo{Картинка-схема}
+
+\subsection{Communication}
+\todo{Две колонки}
+\todo{Картинка-схема}
+\begin{itemize}
+    \item Pipes
+    \item FIFOs
+    \item Pseudoterminals
+    \item Sockets
+          \begin{itemize}
+            \item Stream vs Datagram (vs Seq.
+          \end{itemize}
+    \item cket)
+          \begin{itemize}
+            \item UNIX vs Internet domain
+          \end{itemize}
+    \item POSIX message queues
+    \item POSIX shared memory
+    \item POSIX semaphores
+          \begin{itemize}
+            \item Named, Unnamed
+          \end{itemize}
+    \item System V message queues
+    \item System V shared memory
+    \item System V semaphores
+    \item Shared memory mappings
+          \begin{itemize}
+            \item File vs Anonymous
+          \end{itemize}
+    \item Cross-memory attach
+          \begin{itemize}
+            \item \emph{proc\_vm\_readv()} / \emph{proc\_vm\_writev()}
+          \end{itemize}
+\end{itemize}
+
+\subsection{Signals}
+\begin{itemize}
+    \item Standard, Realtime
+\end{itemize}
 
 \newpage
 \section{Сигналы}
