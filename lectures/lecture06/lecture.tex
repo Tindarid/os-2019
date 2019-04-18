@@ -17,6 +17,8 @@
 
 \section{Классификация}
 \subsection{Synchronization}
+\begin{figure}[H]
+\begin{minipage}[c]{0.4\linewidth}
 \begin{itemize}
     \item Eventfd
     \item Futexes
@@ -27,29 +29,33 @@
     \item Barriers
     \item Read-write locks
 \end{itemize}
-\todo{Картинка-схема}
+\end{minipage}
+\begin{minipage}[c]{0.6\linewidth}
+\centerimage{synchronization.png}{Synchronization}{0.9}
+\end{minipage}
+\end{figure}
 
 \subsection{Communication}
-\todo{Две колонки}
-\todo{Картинка-схема}
+\begin{figure}[H]
+\begin{minipage}[c]{0.5\linewidth}
 \begin{itemize}
     \item Pipes
     \item FIFOs
     \item Pseudoterminals
     \item Sockets
           \begin{itemize}
-            \item Stream vs Datagram (vs Seq.
-          \end{itemize}
-    \item cket)
-          \begin{itemize}
+            \item Stream vs Datagram 
+
+                  (vs Seq.packet)
             \item UNIX vs Internet domain
           \end{itemize}
     \item POSIX message queues
     \item POSIX shared memory
-    \item POSIX semaphores
-          \begin{itemize}
-            \item Named, Unnamed
-          \end{itemize}
+\end{itemize}
+\end{minipage}
+\hspace{0.5cm}
+\begin{minipage}[c]{0.5\linewidth}
+\begin{itemize}
     \item System V message queues
     \item System V shared memory
     \item System V semaphores
@@ -59,9 +65,13 @@
           \end{itemize}
     \item Cross-memory attach
           \begin{itemize}
-            \item \emph{proc\_vm\_readv()} / \emph{proc\_vm\_writev()}
+            \item \emph{proc\_vm\_readv()} 
+            \item \emph{proc\_vm\_writev()}
           \end{itemize}
 \end{itemize}
+\end{minipage}
+\end{figure}
+\centerimage{communication.png}{Communication}{1.5}
 
 \subsection{Signals}
 \begin{itemize}
