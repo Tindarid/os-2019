@@ -28,7 +28,7 @@ CCNA --- примерно полугодовой курс. После сдачи
           Передача одному
     \item \emph{Multicast} --- least significant bit of the first octet is 1\\
           Передача многим
-    \item \emph{Broadcast} --- ff:ff:ff:ff:ff:ff
+    \item \emph{Broadcast} --- ff:ff:ff:ff:ff:ff технология, 
           Передача всем \end{itemize} 
 \subsection{Broadcast domain}
 \textbf{VLAN} (trunk, access) --- виртуальная локальная сеть (используется поле \textbf{type})
@@ -81,7 +81,7 @@ CCNA --- примерно полугодовой курс. После сдачи
     \item C-сеть --- 3 старших байта
 \end{itemize}
 Потом классов не стало\\
-\textbf{CIDR} (Classless InterDomain Routing) --- /8, /16, /24\\
+\textbf{CIDR} (Classless InterDomain Routing) --- маска сети --- /8, /16, /24\\
 Весь интернет: 0.0.0.0/32\\
 Половины интернета: 0.0.0.0/1, 128.0.0.0/1\\
 Конкретный адрес: *.*.*.*/32
@@ -148,40 +148,23 @@ CCNA --- примерно полугодовой курс. После сдачи
 \textbf{TCP} -- reliable, connection oriented
 \begin{itemize}
     \item Header
-    \item Handshaking
+    \item Handshaking --- рукопожатие, обмен служебными пакетами, подготовка к соединению
+    \item Гарантия последовательности данных (байт №5 раньше байта №6)
+    \item Границ внутри сообщений нет
+    \item Внутри протокола есть сериализация (например, размер сообщений 4 гб)
+    \item Пока все старые данные не придут, новые не будут приходить (хотя старые могут быть не нужны)
     \item Retransmits
     \item Congestion
     \item Timers
     \item HOL
+    \item \textbf{RTT} --- Round Trip Time
     \item Active open / Passive open
     \item \todo{tcp-states.gif}
 \end{itemize}
+
 \textbf{UDP} --- unreliable, message oriented
+\begin{itemize}
+    \item Данные могут быть не в том порядке
+    \item Нет виртуального соединения (первоначальный шаг)
+\end{itemize}
 
-\subsection{?}
-\textbf{NAT} --- 
-
-\todo{
-  * Мысленный эксперимент
-    - telnet vk.com 80
-}
-
-\section{L7}
-\todo{}
-  * DNS
-    * Root servers
-    * NS, A, PTR, MX
-  * QUIC
-  * HTTP
-  * HTTP2
-  * HTTP3
-  * Мысленный эксперимент:
-    - Открытие в браузере vk.com
-
-\section{Misc}
-\todo{}
-  * Firewall
-  * Application Firewall
-  * DPI
-  * NOC
-  * tcpdump / wireshark

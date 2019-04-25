@@ -1,0 +1,61 @@
+Немного продолжения прошлой лекции
+
+\section{L4}
+\subsection{NAT}
+\begin{itemize}
+    \item Есть диапазоны сетей, которые не маршрутизируются (например, в двух компаниях одинаковые диапазоны)
+    \item Позволили чуть дольше прожить с \textbf{Ipv4}
+    \item \textbf{NAT} (Network Address Translation) --- технология (\textbf{L7}),  переводящая адреса, используя знания о уровнях (транспортный и т.д.) + переназначает порты
+    \item Проблема с \textbf{FTP} (зашит порт)
+    \item Поэтому в \textbf{NAT} добавлена функциональность deep-inspection (не очень deep)
+\end{itemize}
+
+\subsection{Разное}
+\begin{itemize}
+    \item \textbf{TTL} --- время жизни пакета, уменьшается на 1 при пересылке
+    \item \textbf{Telnet} --- протокол, позволяющий удаленно подключаться к командной строке (данные видны всем)
+    \item \textbf{SSH} --- криптография, все хорошо
+    \item \shell{telnet}
+    \item \shell{tcpdump} --- traffic sniffing
+    \item \shell{wireshark} --- with GUI
+    \item \shell{ping} --- с помощью протокола, который находится между 3 и 4 уровнями
+    \item \shell{traceroute} --- путь пакета
+    \item \shell{netstat -rn} --- таблица маршрутизации
+    \item \shell{ip r}
+\end{itemize}
+
+\subsection{Мысленный эксперимент}
+\shell{telnet vk.com 80}
+\begin{itemize}
+    \item Отправляем \textbf{SYN}
+    \item \dots устанавливаем \textbf{TCP} соединение
+    \item Различные \textbf{NAT}
+\end{itemize}
+
+\section{L7}
+\begin{itemize}
+    \item Люди не машины, числа очень сложно запоминать
+    \item Сначала придумали /etc/hosts (непонятно как сопровождать)
+\end{itemize}
+\subsection{DNS}
+\begin{itemize}
+    \item Иерархическая база данных
+    \item \shell{dig .}
+    \item Корень знает ip-адреса серверов, в которых хранятся ip-адреса следующего уровня (root servers)
+    \item \textbf{NS}, \textbf{A} --- Ipv4, \textbf{AAAA} --- Ipv6, \textbf{PTR}, \textbf{MX} --- почта
+\end{itemize}
+\subsection{Protocols}
+\begin{itemize}
+    \item \textbf{QUIC} --- новомодный транспортный протокол (базируется на UDP, находится в L7, т.к. создание нового протокола в kernelspace безумно дорого)
+    \item \textbf{HTTP}
+    \item \textbf{HTTP2}
+    \item \textbf{HTTP3}
+\end{itemize}
+
+\section{Misc}
+\begin{itemize}
+    \item Firewall --- сервис, фильтрующий пакеты
+    \item Application Firewall
+    \item \textbf{DPI}
+    \item \textbf{NOC} --- узкоспециализированные сисадмины
+\end{itemize}
