@@ -1,0 +1,74 @@
+Про API сокетов (презентация в pdf --- Lecture3 Elementary TCP sockets)
+
+\section{Литература}
+Stevens' Vol1 --- норм
+
+\section{Классификация}
+\todo{Картинка с уровнями OSI}
+
+\section{Sockets}
+\begin{itemize}
+    \item Абстракция, которая задает точку коммуникации
+    \item \shell{man 2 socket}
+    \item Можно выбрать протокол (\textbf{UDP}, \textbf{TCP}, \ldots)
+    \item struct sockaddr --- базовый класс в стиле Си для адресов протоколов
+    \item Всегда выявляется активный клиент и пассивный сервер
+\end{itemize}
+
+\section{Server}
+\begin{itemize}
+    \item Создаем сокет
+    \item Чтобы к нам могли подключаться --- мы должны заbindится на точку\\
+          \shell{man 2 bind}
+    \item Теперь мы можем принимать входящие вызовы (\shell{man 2 listen})
+    \item \emph{backlog} --- пока меньше заданного значения, всем соединения будут 
+          автоматически установлены (если больше, то будут игнорироваться) 
+          --- механизм защиты
+    \item \shell{man 2 accept} --- accept a connection on a socket
+\end{itemize}
+
+\section{Client}
+\shell{man 2 connect} --- initiate a connection on a socket
+
+\todo{scattered, gathered io --- iovec структур, цепочка буферов, 
+      read in multiple buffers}
+
+\section{Sending information}
+\shell{man 2 send}
+\shell{man 2 recv}
+
+\section{?}
+\begin{itemize}
+    \item Все выше рассмотренные \emph{syscalls} --- блокирующие
+    \item Это плохо: если есть 10 соединений и одно из них медленное
+    \item fork-модель --- есть master process, который для каждого соединения
+          создает обслуживающий процесс
+    \item Первые версии \textbf{Apache} так и работали
+    \item Плюсы: скорость, безопасность, просто
+    \item Минусы: дорого, не масштабируется
+\end{itemize}
+
+\section{Cyris IMAP model}
+\begin{enumerate}
+    \item \emph{accept()}
+    \item sockfd
+    \item \emph{fork()}
+    \item \emph{dup2()} stdin, stdout
+    \item \emph{execve(бинарник)}
+\end{enumerate}
+
+\section{Concurrent}
+Слишком много ?
+
+\section{Multiplex}
+\begin{itemize}
+    \item \shell{man 2 select} --- не поддерживает больше 1024 дескрипторов\\
+          Boos.AsIO --- работает так
+    \item 10k problem
+    \item \shell{man 2 poll} --- wait for some event on a fd
+    \item Проблема \emph{poll()} в events
+    \item \shell{man 2 epoll} --- разделение семантики \emph{poll()}
+\end{itemize}
+
+\section{?}
+\shell{man 7 unix} --- Unix-sockets

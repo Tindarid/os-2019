@@ -19,3 +19,5 @@
 * lecture07
     + day10(18.04)
     + day11(25.04)
+* lecture08
+    + day12(27.04)
