@@ -220,13 +220,56 @@
   * ASLR
   * Как может работать сигнатурный поиск в антивирусах
 
+\newpage
 \section{Литература}
-  * man ld
-  * man ld.so
-  * man elf
-  * man readelf
-  * Linkers \& Loaders by John R. Levine
-  * How To Write Shared Libraries by Ulrich Drepper
-  * Learning Linux Binary Analysis by Ryan "elfmaster" O'Neill
+\begin{itemize}
+    \item man ld
+    \item man ld.so
+    \item man elf
+    \item man readelf
+    \item Linkers \& Loaders by John R. Levine
+    \item How To Write Shared Libraries by Ulrich Drepper
+    \item Learning Linux Binary Analysis by Ryan "elfmaster" O'Neill
+\end{itemize}
+
+\section{Домашнее задание №4}
+\textbf{Знакомство с библиотеками}
+\begin{itemize}
+    \item Необходимо создать статическую, и две динамических библиотеки и программу, которая будет их использовать.
+    \item Помимо этого нужен \textbf{Makefile} (либо другой инструмент автоматизации сборки), с помощью которого можно будет собрать все части.
+\end{itemize}
+
+\textbf{Статическая библиотека должна:}
+\begin{itemize}
+    \item Собираться статически
+    \item Предоставлять какие-то функции
+\end{itemize}
+
+\textbf{Первая динамическая библиотека должна:}
+\begin{itemize}
+    \item Собираться динамически
+    \item Динамически линковаться с программой на этапе линковки
+    \item Предоставлять какие-то функции
+\end{itemize}
+
+\textbf{Вторая динамическая библиотека должна:}
+\begin{itemize}
+    \item Собираться динамически
+    \item Предоставлять какие-то функции
+\end{itemize}
+
+\textbf{Программа должна}
+\begin{itemize}
+    \item Статически линковаться с статической библиотекой и вызывать предоставляемые ей функции
+    \item Динамически линковаться с первой динамической библиотекой и вызывать предоставляемые ей функции
+    \item Во время выполнения в явном виде загружать вторую динамическию библиотеку с помощью \emph{dlopen(3)} и вызывать какие-то функции из нее
+\end{itemize}
+
+\textbf{Что может помочь при выполнении задания?}
+\begin{itemize}
+    \item \shell{man dlopen(3)}
+    \item \shell{man ld(1)}
+    \item \shell{man gcc(1)}
+\end{itemize}
 
 \end{document}
