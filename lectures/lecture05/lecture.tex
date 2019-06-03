@@ -5,8 +5,8 @@
 \chapter{Линковка и безопасность}
 
 \section{Общее}
-\textbf{elf} --- executable linked ... \todo{what?}
-Есть еще \textbf{dwarf}
+\textbf{elf} --- executable linked format\\
+Еще есть \textbf{dwarf}
 
 \textbf{Toolchain:}
 \begin{enumerate}
@@ -16,7 +16,7 @@
     \item ОС(Исполняемый файл) = Процесс(Текст, данные, стэк)
 \end{enumerate}
 
-\section{Пример}
+\subsection{Пример}
 Мы играем роль линковщика
 \code{m.c}{C}
 \code{func.c}{C}
@@ -142,91 +142,118 @@
             \item \textbf{PDC} --- Position Dependent Code --- load-time relocation
             \item \textbf{PIC} --- Position Independent code
         \end{itemize}
-    \item Что нужно для ее работы?
-        \begin{itemize}
-            \item \textbf{runtime linker}
-        \end{itemize}
+    \item Для ее работы нужен runtime linker --- \shell{man ld.so}
+    \item Явное связывание --- \emph{dlclose, dlopen, dimopen, dlsym, dlvsym}
 \end{itemize}
 
 \subsection{Relocations}
-  * Запомним все адреса и типы обращений к ним, которые необходимо изменить
-    - Обращения к коду
-    - Обращения к данным
-  * Сохраним адреса в метаданных разделяемой библиотеки
-  * После размещения библиотеки в памяти - пойдем и пропатчим все адреса на настоящие
-  * Плюсы
-    - Не требует особой генерации кода
-  * Минусы
-    - Изменяем код - (W \^ X)
-    - Изменяем код - грязные страницы, sharing страниц текста не работает
-    - Изменяем код - долго
-    - Изменяем код - сложно(разные типа обращений(e.g. mov, call) - требуют разного изменения кода)
+\begin{itemize}
+    \item Запомним все адреса и типы обращений к ним, которые необходимо изменить
+        \begin{itemize}
+            \item Обращения к коду
+            \item Обращения к данным
+        \end{itemize}
+    \item Сохраним адреса в метаданных разделяемой библиотеки
+    \item После размещения библиотеки в памяти - пойдем и пропатчим все адреса на настоящие
+    \item Плюсы
+        \begin{itemize}
+            \item Не требует особой генерации кода
+        \end{itemize}
+    \item Минусы
+        \begin{itemize}
+            \item Изменяем код --- (\textbf{W \& X})
+            \item Изменяем код --- грязные страницы, sharing страниц текста не работает
+            \item Изменяем код --- долго
+            \item Изменяем код --- сложно (разные типа обращений (например, \emph{mov}, \emph{call}) --- требуют разного изменения кода)
+        \end{itemize}
+\end{itemize}
 
 \subsection{PIC, данные}
-  * Два ключевых момента
-    - После того как сегмент текста и данных склеены - знаем смещение из кода до данных - не зависит от реальных адресов
-    - Можем получать абсолютный адрес текущего кода
-
-    call TMPLABEL
-    TMPLABEL:
-      pop %rbx
-
-  * Осталось научиться получать косвенный адрес в абсолютный
-  * Добавляем косвенность - Global Offset Table
-    - Вместо прямого обращения к данным, обращаемся к таблице по индексу
-    - В таблице храним реальные адреса в памяти
-    - Картинка
-    - Загрузили адрес GOT
-    - Из GOT по индексу взяли абсолютный адрес
-    - Дальше работаем с абсолютным адресом
+\begin{itemize}
+    \item Два ключевых момента
+        \begin{itemize}
+            \item После того как сегмент текста и данных склеены --- знаем смещение из кода до данных --- не зависит от реальных адресов
+            \item Можем получать абсолютный адрес текущего кода
+        \end{itemize}
+    \code{tmp.asm}{asm}
+    \item Осталось научиться получать косвенный адрес в абсолютный
+    \item Добавляем косвенность --- \textbf{Global Offset Table} (\textbf{GOT})
+        \begin{itemize}
+            \item Вместо прямого обращения к данным, обращаемся к таблице по индексу
+            \item В таблице храним реальные адреса в памяти
+            \item Загрузили адрес \textbf{GOT}
+            \item Из \textbf{GOT} по индексу взяли абсолютный адрес
+            \item Дальше работаем с абсолютным адресом
+        \end{itemize}
+\end{itemize}
 
 \subsection{PIC, текст}
-  * Ленивая загрузка
-    - Подразумеваем что глобальных переменных сильно меньше чем функций
-    - Функций много, используется мало
-    - Долго/дорого
-  * PLT - Procedure Linkage Table
-    - Элемент таблицы - исполняемый код
-    - Вызов функции - вызов кода по индексу в таблице
-    - Элемент таблицы изменяемый - код изменяемый
-    - Ссылается на запись в GOT
-    - Запись в GOT ссылается на следующую инструкцию
-    - Следующая инструкция выполняет резолвинг символа - функция runtime linker'а
-    - Резолвинг символа выполняется и патчит GOT на реальный адрес
-    - Вызывает функцию - при следующем выполнении пропускаем дорогой процесс и сразу зовем функцию
-  * Минусы
-    - Косвенность
-    - Использование регистров для непрямых переходов - в x86 GP регистров мало, на один меньше
-    - arch/compiler specific
-
+\begin{itemize}
+    \item Ленивая загрузка
+        \begin{itemize}
+            \item Подразумеваем что глобальных переменных сильно меньше чем функций
+            \item Функций много, используется мало
+            \item Долго/дорого
+        \end{itemize}
+    \item \textbf{PLT --- Procedure Linkage Table}
+        \begin{itemize}
+            \item Элемент таблицы --- исполняемый код
+            \item Вызов функции --- вызов кода по индексу в таблице
+            \item Элемент таблицы изменяемый - код изменяемый
+            \item Ссылается на запись в \textbf{GOT}
+            \item Запись в \textbf{GOT} ссылается на следующую инструкцию
+            \item Следующая инструкция выполняет резолвинг символа --- функция runtime linker'а
+            \item Резолвинг символа выполняется и патчит \textbf{GOT} на реальный адрес
+            \item Вызывает функцию --- при следующем выполнении пропускаем дорогой процесс и сразу зовем функцию
+        \end{itemize}
+    \item Минусы
+        \begin{itemize}
+            \item Косвенность
+            \item Использование регистров для непрямых переходов --- в x86 \textbf{GP} регистров мало, на один меньше
+            \item arch/compiler specific
+        \end{itemize}
+\end{itemize}
 
 \section{Misc}
-  * ABI, благодаря чему все работает
-  * mmap
-  * Связь с виртуальной памятью и VFS - в памяти данные нужны только в одном экземпляре
-  * On demand paging - подгружается только то, что нужно(libicu - ~30MB)
+\begin{itemize}
+    \item Связь с виртуальной памятью и \textbf{VFS} --- в памяти данные нужны только в одном экземпляре
+    \item \emph{On demand paging} --- подгружается только то, что нужно (\textbf{libicu} --- ~30MB)
+    \item \shell{man 3 dlopen}
+    \item \shell{man ld.so}
+    \item На самом деле исполняемые файлы запускаются через \textbf{runtime linker} --- /lib64/ld-linux-x86-64.so.2 /bin/ls
+    \item Полезное/интересное:
+        \begin{itemize}
+            \item LD\_PRELOAD
+            \item LD\_LIBRARY\_PATH
+            \item RPATH
+            \item LD\_DEBUG
+        \end{itemize}
+\end{itemize}
 
-\section{Runtime linker}
-  * man 3 dlopen
-  * man ld.so
-  * На самом деле исполняемые файлы запускаются через runtime linker - /lib64/ld-linux-x86-64.so.2 /bin/ls
-  * Полезное/интересное:
-    - LD\_PRELOAD
-    - LD\_LIBRARY\_PATH
-    - RPATH
-    - LD\_DEBUG
+\section{Примеры}
+\subsection{Пример №1}
+\code{example1.c}{C}
+\begin{itemize}
+    \item \shell{cc example1.c} --- В чем проблема?
+    \item \shell{cc example1.c -lpthread}\\
+          \shell{ldd ./a.out}
+    \item Надо указать, что нужно слинковаться
+    \item Тут еще \textbf{ASLR} работает
+\end{itemize}
 
-\section{Безопасность}
-  * ASLR
-  * Как может работать сигнатурный поиск в антивирусах
+\subsection{Пример №2}
+\code{example2.c}{C}
+\begin{itemize}
+    \item \shell{cc example2.c} --- Снова не работает?
+    \item \shell{cc example2.c -ldl}
+    \item \textbf{ASLR} работает, но младшие байты остаются одними и те же
+    \item O\_CLOEXEC --- флаг для безопасности
+\end{itemize}
 
 \newpage
 \section{Литература}
 \begin{itemize}
-    \item man ld
-    \item man ld.so
-    \item man elf
-    \item man readelf
+    \item \shell{man ld}, \shell{man ld.so}, \shell{man elf}, \shell{readelf}
     \item Linkers \& Loaders by John R. Levine
     \item How To Write Shared Libraries by Ulrich Drepper
     \item Learning Linux Binary Analysis by Ryan "elfmaster" O'Neill

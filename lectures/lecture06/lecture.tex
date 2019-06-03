@@ -228,21 +228,21 @@
     \item \shell{man 2 connect}
     \item Есть разные протоколы (транспортные, сетевые и т.д.)
 \end{itemize}
-Уровни (\todo{модели оси?}):
 
-\textbf{Userspace:}
+\subsection{Модели \textbf{OSI}}
+\begin{center}\textbf{Userspace}\end{center}
 \begin{itemize}
     \item \textbf{L7} --- APPLICATION (\textbf{HTTP, MTproto, QUIC}, etc)
-    \item \textbf{L6, L5} --- SESSION, REPRESENTATION
+    \item \textbf{L6, L5} --- SESSION, PRESENTATION
 
           Чистая абстракция, способ поделить протокол на части, чтобы его проще было понимать
 \end{itemize}
 
-\textbf{Kernelspace:}
+\begin{center}\textbf{Kernelspace}\end{center}
 \begin{itemize}
     \item \textbf{L4} --- TRANSPORT (\textbf{TCP, UDP, SCTP}, etc)
     \item \textbf{L3} --- NETWORK (\textbf{IPv4, IPv6, IPX})
-    \item \textbf{L2} --- \todo{?} (\textbf{802.3, 802.11})
+    \item \textbf{L2} --- DATA LINK (\textbf{802.3, 802.11})
     \item \textbf{L1} --- PHYSICAL
 \end{itemize}
 
@@ -257,4 +257,24 @@
     }
 \end{itemize}
 
+\section{Домашнее задание №8}
+\begin{center}\textbf{Обработка сигналов}\end{center}
+
+Необходимо написать обработчик сигнала \textbf{SIGSEGV}. Обработчик должен:
+\begin{itemize}
+    \item Дампить значения \emph{general purpose} регистров, соответствуюших моменту падения
+    \item Дампить память поблизости от адреса, по которому произошло нарушение защиты памяти
+\end{itemize}
+
+Стоит быть готовым, что:
+\begin{itemize}
+    \item Адрес, по которому был сгенерирован \textbf{SIGSEGV} --- \textbf{NULL}
+    \item Адрес, по которому был сгенерирован \textbf{SIGSEGV} --- находится на границе валидной памяти и нет
+\end{itemize}
+
+Что может помочь при выполнении задания?
+\begin{itemize}
+    \item \shell{man 2 sigaction}
+    \item \shell{man 2 getcontext}
+\end{itemize}
 \end{document}
