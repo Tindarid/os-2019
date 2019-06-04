@@ -1,0 +1,150 @@
+\documentclass[../../lectures.tex]{subfiles}
+
+\begin{document}
+
+\chapter{API сокетов}
+
+\section{Client and server}
+\centerimage{server.png}{Simple client and server}{0.65}
+
+\section{Sockets}
+\begin{itemize}
+    \item Абстракция, которая задает точку коммуникации
+    \item \shell{man 2 socket}
+    \item Можно выбрать протокол (\textbf{UDP}, \textbf{TCP}, \ldots)
+    \item \emph{struct sockaddr} --- базовый класс в стиле Си для адресов протоколов
+    \item Всегда выявляется активный клиент и пассивный сервер
+\end{itemize}
+
+\section{Server}
+\begin{itemize}
+    \item Создаем сокет
+    \item Чтобы к нам могли подключаться --- мы должны заbindится на точку\\
+          \shell{man 2 bind}
+    \item Теперь мы можем принимать входящие вызовы (\shell{man 2 listen})
+    \item \emph{backlog} --- пока меньше заданного значения, всем соединения будут 
+          автоматически установлены (если больше, то будут игнорироваться) 
+          --- механизм защиты
+    \item \shell{man 2 accept} --- accept a connection on a socket
+\end{itemize}
+\centerimage{backlog.png}{Backlog}{0.65}
+
+\section{Client}
+\begin{itemize}
+    \item \shell{man 2 connect} --- initiate a connection on a socket
+\end{itemize}
+
+\section{Sending information}
+\begin{itemize}
+    \item \shell{man 2 send}
+    \item \shell{man 2 recv}
+\end{itemize}
+
+\section{Модели}
+\begin{itemize}
+    \item Все выше рассмотренные \emph{syscalls} --- блокирующие
+    \item Это плохо: если есть 10 соединений и одно из них медленное
+    \item \emph{fork}-модель --- есть master process, который для каждого соединения
+          создает обслуживающий процесс
+    \item Первые версии \textbf{Apache} так и работали
+    \item Плюсы: скорость, безопасность, просто
+    \item Минусы: дорого, не масштабируется
+    \item Если делать \emph{concurrent}-модель, то будет слишком много потоков
+\end{itemize}
+
+\section{Cyris IMAP model}
+\begin{enumerate}
+    \item \emph{accept()}
+    \item sockfd
+    \item \emph{fork()}
+    \item \emph{dup2()} stdin, stdout
+    \item \emph{execve(бинарник)}
+\end{enumerate}
+
+\section{Multiplex}
+\begin{itemize}
+    \item \shell{man 2 select} --- не поддерживает больше 1024 дескрипторов\\
+        \emph{Boost.AsIO} --- работает так
+    \item 10k problem (just google it)
+    \item \shell{man 2 poll} --- wait for some event on a fd
+    \item Проблема \emph{poll()} в events
+    \item \shell{man 2 epoll} --- разделение семантики \emph{poll()}
+\end{itemize}
+
+\section{Литература}
+\begin{itemize}
+    \item \shell{man 7 unix} --- Unix-sockets
+    \item Stevens' Vol1
+    \item \textcolor{blue}{
+        \href{http://www.telecom.otago.ac.nz/tele402/lectures/lecture3.pdf}{Ссылка на презентацию}
+    }
+    \item \textcolor{blue}{
+        \href{https://notes.shichao.io/unp/ch4}{See also}
+    }
+\end{itemize}
+
+\section{Домашнее задание №6}
+\textbf{Знакомство с мультиплексированием}
+\begin{itemize}
+    \item Необходимо попробовать клиент-серверное взаимодействие с использованием механизмов мультиплексирования.
+    \item Помимо этого нужен \textbf{Makefile}, с помощью которого можно будет собрать клиент и сервер.
+    \item Семейство протоколов для использования на выбор: AF\_UNIX, AF\_INET, AF\_INET6.
+\end{itemize}
+
+\textbf{Сервер должен:}
+\begin{itemize}
+    \item В качестве аргументов принимать адрес, на котором будет ожидать входящих соединений
+    \item Стартовать, делать \emph{bind(2)} на заданный адрес и ожидать входящих соединений с использованием одного из механизмов мультиплексирования
+    \item При получении соединения, добавлять дескриптор в механизм мультиплексирования и ожидать событий и на нем
+    \item Выполнять на принятых соединениях серверную часть протокола
+    \item По завершении обработки соединения удалять все события из механизмов мультиплексирования
+\end{itemize}
+
+\textbf{Клиент должен:}
+\begin{itemize}
+    \item Принимать параметром адрес, к которому стоит подключиться
+    \item Используя механизмы мультиплексирования подключаться к серверу
+    \item Используя механизмы мультиплексирования выполнять клиентскую часть протокола
+    \item Завершаться
+\end{itemize}
+
+Для сильных духом предлагается реализовать код, который будет работать на двух разных ОС, используя на каждой специфичные механизмы мультиплексирования.
+Сильность духа будет оцениваться в два балла.
+
+\section{Домашнее задание №7}
+\textbf{Знакомство с передачей дескрипторов и IPC}
+\begin{itemize}
+    \item Необходимо получить опыт работы с \textbf{IPC}. Нужно создать приложение клиента и сервера.
+    \item Клиент и сервер обшаются через \textbf{UNIX} сокет
+    \item Клиент подключается к серверу через \textbf{UNIX} сокет, получает от сервера файловый дескриптор, соответсвующий объекту какого-либо вида \textbf{IPC}
+    \item Клиент и сервер выполняют какое-то взаимодействие используя \textbf{IPC}
+\end{itemize}
+
+\textbf{Сервер должен:}
+\begin{itemize}
+    \item Ожидать подключений на \textbf{UNIX} сокете
+    \item Для новых соединений создавать новый вид \textbf{IPC}, объекты которого представимы в виде файловых дескрипторов
+    \item Передавать через \textbf{UNIX} сокет клиенту файловый дескриптор \textbf{IPC} соответсвующий клиенту
+    \item Ожидать выполнения какого-либо протокола поверх \textbf{IPC} с клиентом
+\end{itemize}
+
+\textbf{Клиент должен:}
+\begin{itemize}
+    \item Подключиться на UNIX сокет к серверу</li>
+    \item Получать в виде файлового дескриптора клиентскую часть IPC</li>
+    \item Взаимодействовать с сервером через IPC для выполнения какого-либо протокола
+\end{itemize}
+
+\textbf{Примерами IPC могут служить:}
+\begin{itemize}
+    \item Pipe
+    \item Socket
+    \item Файловые дескрипторы для разделямой памяти или сообщений(\textbf{POSIX})
+    \item Файловые дескрипторы для анонимной памяти.
+\end{itemize}
+
+\textbf{Что может помочь при выполнении задания?}
+\begin{itemize}
+    \item \shell{man 7 unix}
+\end{itemize}
+\end{document}
